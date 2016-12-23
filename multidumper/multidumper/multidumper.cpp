@@ -252,6 +252,8 @@ public:
 		if (!spu) return;
 
 		spu_clear_state(spu, 1);
+		spu_enable_main(spu, 1);
+		spu_enable_reverb(spu, 0);
 
 		uint32_t voice;
 		for (voice = 0; voice < solo_voice; ++voice)
