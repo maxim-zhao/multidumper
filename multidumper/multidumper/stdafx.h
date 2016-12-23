@@ -17,4 +17,7 @@
 
 #include <gme.h>
 
+#include <spu.h>
+#include <spucore.h>
+
 // TODO: reference additional headers your program requires here

@@ -49,7 +49,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>E:\Source\Repos\foobar2000\plugins\Game_Music_Emu\gme;E:\Source\Repos\foobar2000\plugins\foobar</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Source\Repos\foobar2000\plugins\Game_Music_Emu\gme;D:\Source\Repos\foobar2000\plugins\ESP\PSX\Core;D:\Source\Repos\foobar2000\plugins\foobar</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -67,7 +67,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>E:\Source\Repos\foobar2000\plugins\Game_Music_Emu\gme;E:\Source\Repos\foobar2000\plugins\foobar</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Source\Repos\foobar2000\plugins\Game_Music_Emu\gme;D:\Source\Repos\foobar2000\plugins\ESP\PSX\Core;D:\Source\Repos\foobar2000\plugins\foobar</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -92,6 +92,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\foobar2000\plugins\ESP\PSX\Core\PSXCore.vcxproj">
+      <Project>{d578378a-a579-461a-a4e8-ba2c548b12a7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\foobar2000\plugins\File_Extractor\win32\File_Extractor\File_Extractor.vcxproj">
       <Project>{e7dd9fb8-a045-42a3-a25a-37a96b1421ae}</Project>
     </ProjectReference>
