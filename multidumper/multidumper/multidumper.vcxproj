@@ -22,7 +22,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
@@ -92,20 +92,20 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\foobar2000\plugins\ESP\PSX\Core\PSXCore.vcxproj">
-      <Project>{d578378a-a579-461a-a4e8-ba2c548b12a7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\foobar2000\plugins\File_Extractor\win32\File_Extractor\File_Extractor.vcxproj">
+    <ProjectReference Include="..\..\File_Extractor\win32\File_Extractor\File_Extractor.vcxproj">
       <Project>{e7dd9fb8-a045-42a3-a25a-37a96b1421ae}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\foobar2000\plugins\foobar\pfc\pfc.vcxproj">
+    <ProjectReference Include="..\..\Game_Music_Emu\msvc\Game_Music_Emu.vcxproj">
+      <Project>{c3e262d2-2d15-4a46-98f1-2ce8a74f3590}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\pfc\pfc.vcxproj">
       <Project>{ebfffb4e-261d-44d3-b89c-957b31a0bf9c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\foobar2000\plugins\foobar\zlib\zlib.vcxproj">
-      <Project>{b91fdb47-3784-46cc-b23f-e863b60e87d4}</Project>
+    <ProjectReference Include="..\..\PSXCore\Core\PSXCore.vcxproj">
+      <Project>{d578378a-a579-461a-a4e8-ba2c548b12a7}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\foobar2000\plugins\Game_Music_Emu\msvc\Game_Music_Emu.vcxproj">
-      <Project>{c3e262d2-2d15-4a46-98f1-2ce8a74f3590}</Project>
+    <ProjectReference Include="..\..\zlib\zlib.vcxproj">
+      <Project>{b91fdb47-3784-46cc-b23f-e863b60e87d4}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -15,11 +15,7 @@ void * song_buffer;
 
 pfc::string8 base_name;
 
-pfc::array_t<pfc::thread*> threads;
-
 volatile unsigned long long thread_count = 0;
-
-int is_spu = 0;
 
 struct WriteRegLogOld
 {
@@ -197,7 +193,7 @@ public:
 		name += gme_voice_name(gme, solo_voice);
 		name += ".wav";
 
-		FILE * fw = _tfopen( pfc::stringcvt::string_os_from_utf8( name ), _T("wb") );
+		FILE * fw = _tfopen(pfc::stringcvt::string_os_from_utf8(name), _T("wb"));
 
 		write_be32(fw, 'RIFF');
 		write_le32(fw, 0);
@@ -424,14 +420,38 @@ public:
 	}
 };
 
-// Returns <0 on error, or subsong count on success
-extern "C" int __declspec(dllexport) __stdcall multidump_open(const TCHAR * path)
+int _tmain(int argc, _TCHAR* argv[])
 {
-	FILE * f = _tfopen( path, _T("rb") );
+	int argname = -1;
+	int argjson = -1;
+	int argsubsong = -1;
+
+	if (argc < 2 || argc > 3)
+	{
+		fprintf(stderr, "Usage: multidumper <path> [subsong]\n");
+		return 1;
+	}
+
+	for (int i = 1; i < argc; ++i)
+	{
+		if (_tcsicmp(argv[i], _T("--json")))
+		{
+			argjson = i;
+			break;
+		}
+	}
+
+	if (argjson == 1) argname = 2;
+	else argname = 1;
+
+	if (argjson > argname) argsubsong = argjson + 1;
+	else argsubsong = argname + 1;
+
+	FILE * f = _tfopen(argv[argname], _T("rb"));
 	if (!f)
 	{
-		fprintf(stderr, "Unable to open file: %s\n", path);
-		return -1;
+		fprintf(stderr, "Unable to open file: %s\n", argv[argname]);
+		return 1;
 	}
 
 	fseek(f, 0, SEEK_END);
@@ -443,23 +463,30 @@ extern "C" int __declspec(dllexport) __stdcall multidump_open(const TCHAR * path
 	{
 		fprintf(stderr, "Out of memory.\n");
 		fclose(f);
-		return -1;
+		return 1;
 	}
 
 	fread(song_buffer, 1, size, f);
 	fclose(f);
 
-	const TCHAR * ext = _tcsrchr(path, _T('.'));
+	const TCHAR * ext = _tcsrchr(argv[argname], _T('.'));
 	if (ext && _tcsicmp(ext + 1, _T("spu")) == 0)
 	{
-		is_spu = 1;
-
 		spu_init();
 		spucore_init();
 
 		if (size < 524808 || size >(1 << 30))
 		{
 			fprintf(stderr, "SPU Log not usable size.\n");
+			return 1;
+		}
+
+		const int track_count = 1;
+		const int voice_count = 24;
+
+		if (argc == 3)
+		{
+			fprintf(stderr, "Subsongs not supported by SPU Logs.\n");
 			return 1;
 		}
 
@@ -475,6 +502,14 @@ extern "C" int __declspec(dllexport) __stdcall multidump_open(const TCHAR * path
 			spu_length = spu_TicksPerSecond;
 			spu_TicksPerSecond = 44100;
 			spu_LogCount = 0;
+		}
+
+		if (argjson > 0)
+		{
+			fprintf(stdout, "{\"subsongCount\": 1, \"channels\": [");
+			for (int i = 0; i < 24; ++i) fprintf(stdout, "\"SPU ch #%d\"%s", i + 1, i < 24 ? ", " : "");
+			fprintf(stdout, "]}");
+			return 0;
 		}
 
 		if (spu_LogCount)
@@ -581,46 +616,12 @@ extern "C" int __declspec(dllexport) __stdcall multidump_open(const TCHAR * path
 				spu_LogCount++;
 			}
 		}
-	}
-	else
-		is_spu = 0;
 
-	base_name = pfc::stringcvt::string_utf8_from_os(path);
-	base_name.truncate(base_name.find_last('.'));
-	base_name += " - ";
+		base_name = pfc::stringcvt::string_utf8_from_os(argv[argname]);
+		base_name.truncate(base_name.find_last('.'));
+		base_name += " - ";
 
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) __stdcall multidump_subsong_count()
-{
-	if (is_spu)
-		return 1;
-	else
-	{
-		gme_t * gme;
-
-		gme_err_t err = gme_open_data(song_buffer, size, &gme, 44100);
-
-		if (err)
-		{
-			fprintf(stderr, "Error opening song: %s", err);
-			return -1;
-		}
-
-		int track_count = gme_track_count(gme);
-
-		gme_delete(gme);
-
-		return track_count;
-	}
-}
-
-extern "C" int __declspec(dllexport) __stdcall multidump_run(uint32_t subsong)
-{
-	if (is_spu)
-	{
-		const int voice_count = 24;
+		pfc::array_t<spu_thread*> threads;
 
 		for (int i = 0; i < voice_count; ++i)
 		{
@@ -628,7 +629,19 @@ extern "C" int __declspec(dllexport) __stdcall multidump_run(uint32_t subsong)
 		}
 		for (int i = 0; i < voice_count; ++i)
 		{
-			((spu_thread *)(threads[i]))->startVoice(i);
+			threads[i]->startVoice(i);
+		}
+		while (thread_count)
+		{
+			Sleep(100);
+		}
+		for (int i = 0; i < voice_count; ++i)
+		{
+			threads[i]->waitTillDone();
+		}
+		for (int i = 0; i < voice_count; ++i)
+		{
+			delete threads[i];
 		}
 	}
 	else
@@ -640,13 +653,53 @@ extern "C" int __declspec(dllexport) __stdcall multidump_run(uint32_t subsong)
 		if (err)
 		{
 			fprintf(stderr, "Error opening song: %s\n", err);
-			return -1;
+			return 1;
 		}
 
 		int track_count = gme_track_count(gme);
 
-		if ((int)subsong >= track_count)
-			return -1;
+		if (argjson > 0)
+		{
+			fprintf(stdout, "{\"subsongCount\": %d, \"channels\": [", track_count);
+			int voice_count = gme_voice_count(gme);
+			for (int i = 0; i < voice_count; ++i) fprintf(stdout, "\"%s\"%s", gme_voice_name(gme, i), i < 24 ? ", " : "");
+			fprintf(stdout, "]}");
+			return 0;
+		}
+
+		if (argc == 2)
+		{
+			fprintf(stderr, "Song count: %d\n", track_count);
+			gme_delete(gme);
+			free(song_buffer);
+			return 0;
+		}
+
+		TCHAR * end;
+
+		track_number = (int)_tcstol(argv[argsubsong], &end, 0);
+		if (*end || track_number < 0 || track_number >= track_count)
+		{
+			_ftprintf(stderr, _T("Invalid track number: %s (Should be 0 - %d)\n"), argv[argsubsong], track_count - 1);
+			gme_delete(gme);
+			free(song_buffer);
+			return 1;
+		}
+
+		err = gme_start_track(gme, track_number);
+		if (err)
+		{
+			fprintf(stderr, "Error starting track number %d: %s\n", track_number, err);
+			gme_delete(gme);
+			free(song_buffer);
+			return 1;
+		}
+
+		base_name = pfc::stringcvt::string_utf8_from_os(argv[argname]);
+		base_name.truncate(base_name.find_last('.'));
+		base_name += " - ";
+
+		pfc::array_t<gme_thread*> threads;
 
 		int voice_count = gme_voice_count(gme);
 
@@ -658,32 +711,23 @@ extern "C" int __declspec(dllexport) __stdcall multidump_run(uint32_t subsong)
 		}
 		for (int i = 0; i < voice_count; ++i)
 		{
-			((gme_thread*)(threads[i]))->startVoice(i);
+			threads[i]->startVoice(i);
+		}
+		while (thread_count)
+		{
+			Sleep(100);
+		}
+		for (int i = 0; i < voice_count; ++i)
+		{
+			threads[i]->waitTillDone();
+		}
+		for (int i = 0; i < voice_count; ++i)
+		{
+			delete threads[i];
 		}
 	}
-}
 
-extern "C" int __declspec(dllexport) __stdcall multidump_threads_running()
-{
-	return thread_count;
-}
-
-extern "C" int __declspec(dllexport) __stdcall multidump_cleanup()
-{
-	while (thread_count)
-	{
-		Sleep(100);
-	}
-
-	size_t voice_count = threads.get_count();
-	for (int i = 0; i < voice_count; ++i)
-	{
-		threads[i]->waitTillDone();
-	}
-	for (int i = 0; i < voice_count; ++i)
-	{
-		delete threads[i];
-	}
+	free(song_buffer);
 
 	return 0;
 }
