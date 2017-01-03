@@ -5,15 +5,15 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "multidumper", "multidumper\multidumper.vcxproj", "{A4E4F4D8-DFEB-4FDC-9843-224E4A1E5399}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Music_Emu", "..\..\foobar2000\plugins\Game_Music_Emu\msvc\Game_Music_Emu.vcxproj", "{C3E262D2-2D15-4A46-98F1-2CE8A74F3590}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Music_Emu", "..\Game_Music_Emu\msvc\Game_Music_Emu.vcxproj", "{C3E262D2-2D15-4A46-98F1-2CE8A74F3590}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfc", "..\..\foobar2000\plugins\foobar\pfc\pfc.vcxproj", "{EBFFFB4E-261D-44D3-B89C-957B31A0BF9C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfc", "..\pfc\pfc.vcxproj", "{EBFFFB4E-261D-44D3-B89C-957B31A0BF9C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "File_Extractor", "..\..\foobar2000\plugins\File_Extractor\win32\File_Extractor\File_Extractor.vcxproj", "{E7DD9FB8-A045-42A3-A25A-37A96B1421AE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "File_Extractor", "..\File_Extractor\win32\File_Extractor\File_Extractor.vcxproj", "{E7DD9FB8-A045-42A3-A25A-37A96B1421AE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "..\..\foobar2000\plugins\foobar\zlib\zlib.vcxproj", "{B91FDB47-3784-46CC-B23F-E863B60E87D4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "..\zlib\zlib.vcxproj", "{B91FDB47-3784-46CC-B23F-E863B60E87D4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PSXCore", "..\..\foobar2000\plugins\ESP\PSX\Core\PSXCore.vcxproj", "{D578378A-A579-461A-A4E8-BA2C548B12A7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PSXCore", "..\PSXCore\Core\PSXCore.vcxproj", "{D578378A-A579-461A-A4E8-BA2C548B12A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
