@@ -20,4 +20,6 @@
 #include <spu.h>
 #include <spucore.h>
 
+#include "json.hpp"
+
 // TODO: reference additional headers your program requires here

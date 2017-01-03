@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 
+using json = nlohmann::json;
+
 typedef struct gme_job
 {
 	unsigned int solo_voice;
@@ -426,6 +428,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	int argjson = -1;
 	int argsubsong = -1;
 
+	json j;
+
 	if (argc < 2 || argc > 3)
 	{
 		fprintf(stderr, "Usage: multidumper <path> [subsong]\n");
@@ -434,7 +438,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	for (int i = 1; i < argc; ++i)
 	{
-		if (_tcsicmp(argv[i], _T("--json")))
+		if (_tcsicmp(argv[i], _T("--json")) == 0)
 		{
 			argjson = i;
 			break;
@@ -450,7 +454,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	FILE * f = _tfopen(argv[argname], _T("rb"));
 	if (!f)
 	{
-		fprintf(stderr, "Unable to open file: %s\n", argv[argname]);
+		
+		j["error"] = "Unable to open file.";
+
+		std::cout << j;
+
 		return 1;
 	}
 
@@ -461,7 +469,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	song_buffer = malloc(size);
 	if (!song_buffer)
 	{
-		fprintf(stderr, "Out of memory.\n");
+		j["error"] = "Out of memory.";
+
+		std::cout << j;
 		fclose(f);
 		return 1;
 	}
@@ -477,7 +487,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		if (size < 524808 || size >(1 << 30))
 		{
-			fprintf(stderr, "SPU Log not usable size.\n");
+			j["error"] = "SPU log not usable size.";
+
+			std::cout << j;
 			return 1;
 		}
 
@@ -486,7 +498,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		if (argc == 3)
 		{
-			fprintf(stderr, "Subsongs not supported by SPU Logs.\n");
+			j["error"] = "Subsongs not supported by SPU Logs.";
+
+			std::cout << j;
 			return 1;
 		}
 
@@ -506,9 +520,13 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		if (argjson > 0)
 		{
-			fprintf(stdout, "{\"subsongCount\": 1, \"channels\": [");
+			/*fprintf(stdout, "{\"subsongCount\": 1, \"channels\": [");
 			for (int i = 0; i < 24; ++i) fprintf(stdout, "\"SPU ch #%d\"%s", i + 1, i < 24 ? ", " : "");
-			fprintf(stdout, "]}");
+			fprintf(stdout, "]}");*/
+
+			//j[]
+
+
 			return 0;
 		}
 
@@ -650,20 +668,69 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		gme_err_t err = gme_open_data(song_buffer, size, &gme, 44100);
 
+
 		if (err)
 		{
-			fprintf(stderr, "Error opening song: %s\n", err);
+			j["error"] = "Error opening song.";
+			
+			std::cout << j;
+
 			return 1;
 		}
+
+		gme_info_t * gmeinfo_first;
+
+		gme_err_t inferr = gme_track_info(gme, &gmeinfo_first, 0);
 
 		int track_count = gme_track_count(gme);
 
 		if (argjson > 0)
 		{
-			fprintf(stdout, "{\"subsongCount\": %d, \"channels\": [", track_count);
+			/*fprintf(stdout, "{\"subsongCount\": %d, \"system\": \"%s\", \"channels\": [", track_count, gmeinfo->system);
+			for (int i = 0; i < voice_count; ++i) fprintf(stdout, "\"%s\"%s", gme_voice_name(gme, i), i < voice_count-1 ? ", " : "");
+			fprintf(stdout, "]}");*/
+
 			int voice_count = gme_voice_count(gme);
-			for (int i = 0; i < voice_count; ++i) fprintf(stdout, "\"%s\"%s", gme_voice_name(gme, i), i < 24 ? ", " : "");
-			fprintf(stdout, "]}");
+
+
+			j["subsongCount"] = track_count;
+			j["containerinfo"] = { 
+				{ "system", gmeinfo_first->system },
+				{ "game", gmeinfo_first->game },
+				{ "dumper", gmeinfo_first->dumper },
+				{ "copyright", gmeinfo_first->copyright } };
+
+			std::vector<std::map<std::string, std::string>> infos;
+
+			for (int x = 0; x < track_count; ++x)
+			{
+
+				gme_info_t * gmeinfo;
+
+				gme_err_t inferrs = gme_track_info(gme, &gmeinfo, x);
+
+
+				infos.push_back({ 
+					{ "name", gmeinfo->song },
+				    { "author", gmeinfo->author },
+					{ "comment", gmeinfo->comment } });
+
+				gme_free_info(gmeinfo);
+			}
+
+			j["songs"] = infos;
+
+			std::vector<std::string> channels;
+
+			for (int i = 0; i < voice_count; ++i)
+			{
+				channels.push_back(gme_voice_name(gme, i));
+			}
+
+			j["channels"] = channels;
+			
+			std::cout << j;
+			
 			return 0;
 		}
 
