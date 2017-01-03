@@ -22,7 +22,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
@@ -49,7 +49,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Source\Repos\foobar2000\plugins\Game_Music_Emu\gme;D:\Source\Repos\foobar2000\plugins\ESP\PSX\Core;D:\Source\Repos\foobar2000\plugins\foobar</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Source\Repos\foobar2000\plugins\Game_Music_Emu\gme;E:\Source\Repos\foobar2000\plugins\ESP\PSX\Core;E:\Source\Repos\foobar2000\plugins\foobar</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -67,7 +67,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>D:\Source\Repos\foobar2000\plugins\Game_Music_Emu\gme;D:\Source\Repos\foobar2000\plugins\ESP\PSX\Core;D:\Source\Repos\foobar2000\plugins\foobar</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Source\Repos\foobar2000\plugins\Game_Music_Emu\gme;E:\Source\Repos\foobar2000\plugins\ESP\PSX\Core;E:\Source\Repos\foobar2000\plugins\foobar</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

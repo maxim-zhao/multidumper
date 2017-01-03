@@ -15,7 +15,11 @@ void * song_buffer;
 
 pfc::string8 base_name;
 
+pfc::array_t<pfc::thread*> threads;
+
 volatile unsigned long long thread_count = 0;
+
+int is_spu = 0;
 
 struct WriteRegLogOld
 {
@@ -420,19 +424,14 @@ public:
 	}
 };
 
-int _tmain(int argc, _TCHAR* argv[])
+// Returns <0 on error, or subsong count on success
+extern "C" int __declspec(dllexport) __stdcall multidump_open(const TCHAR * path)
 {
-	if (argc < 2 || argc > 3)
-	{
-		fprintf(stderr, "Usage: multidumper <path> [subsong]\n");
-		return 1;
-	}
-
-	FILE * f = _tfopen( argv[1], _T("rb") );
+	FILE * f = _tfopen( path, _T("rb") );
 	if (!f)
 	{
-		fprintf(stderr, "Unable to open file: %s\n", argv[1]);
-		return 1;
+		fprintf(stderr, "Unable to open file: %s\n", path);
+		return -1;
 	}
 
 	fseek(f, 0, SEEK_END);
@@ -444,30 +443,23 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		fprintf(stderr, "Out of memory.\n");
 		fclose(f);
-		return 1;
+		return -1;
 	}
 
 	fread(song_buffer, 1, size, f);
 	fclose(f);
 
-	const TCHAR * ext = _tcsrchr(argv[1], _T('.'));
+	const TCHAR * ext = _tcsrchr(path, _T('.'));
 	if (ext && _tcsicmp(ext + 1, _T("spu")) == 0)
 	{
+		is_spu = 1;
+
 		spu_init();
 		spucore_init();
 
 		if (size < 524808 || size >(1 << 30))
 		{
 			fprintf(stderr, "SPU Log not usable size.\n");
-			return 1;
-		}
-
-		const int track_count = 1;
-		const int voice_count = 24;
-
-		if (argc == 3)
-		{
-			fprintf(stderr, "Subsongs not supported by SPU Logs.\n");
 			return 1;
 		}
 
@@ -589,12 +581,46 @@ int _tmain(int argc, _TCHAR* argv[])
 				spu_LogCount++;
 			}
 		}
+	}
+	else
+		is_spu = 0;
 
-		base_name = pfc::stringcvt::string_utf8_from_os(argv[1]);
-		base_name.truncate(base_name.find_last('.'));
-		base_name += " - ";
+	base_name = pfc::stringcvt::string_utf8_from_os(path);
+	base_name.truncate(base_name.find_last('.'));
+	base_name += " - ";
 
-		pfc::array_t<spu_thread*> threads;
+	return 0;
+}
+
+extern "C" int __declspec(dllexport) __stdcall multidump_subsong_count()
+{
+	if (is_spu)
+		return 1;
+	else
+	{
+		gme_t * gme;
+
+		gme_err_t err = gme_open_data(song_buffer, size, &gme, 44100);
+
+		if (err)
+		{
+			fprintf(stderr, "Error opening song: %s", err);
+			return -1;
+		}
+
+		int track_count = gme_track_count(gme);
+
+		gme_delete(gme);
+
+		return track_count;
+	}
+}
+
+extern "C" int __declspec(dllexport) __stdcall multidump_run(uint32_t subsong)
+{
+	if (is_spu)
+	{
+		const int voice_count = 24;
 
 		for (int i = 0; i < voice_count; ++i)
 		{
@@ -602,19 +628,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		for (int i = 0; i < voice_count; ++i)
 		{
-			threads[i]->startVoice(i);
-		}
-		while (thread_count)
-		{
-			Sleep(100);
-		}
-		for (int i = 0; i < voice_count; ++i)
-		{
-			threads[i]->waitTillDone();
-		}
-		for (int i = 0; i < voice_count; ++i)
-		{
-			delete threads[i];
+			((spu_thread *)(threads[i]))->startVoice(i);
 		}
 	}
 	else
@@ -626,44 +640,13 @@ int _tmain(int argc, _TCHAR* argv[])
 		if (err)
 		{
 			fprintf(stderr, "Error opening song: %s\n", err);
-			return 1;
+			return -1;
 		}
 
 		int track_count = gme_track_count(gme);
 
-		if (argc == 2)
-		{
-			fprintf(stderr, "Song count: %d\n", track_count);
-			gme_delete(gme);
-			free(song_buffer);
-			return 0;
-		}
-
-		TCHAR * end;
-
-		track_number = (int)_tcstol(argv[2], &end, 0);
-		if (*end || track_number < 0 || track_number >= track_count)
-		{
-			_ftprintf(stderr, _T("Invalid track number: %s (Should be 0 - %d)\n"), argv[2], track_count - 1);
-			gme_delete(gme);
-			free(song_buffer);
-			return 1;
-		}
-
-		err = gme_start_track(gme, track_number);
-		if (err)
-		{
-			fprintf(stderr, "Error starting track number %d: %s\n", track_number, err);
-			gme_delete(gme);
-			free(song_buffer);
-			return 1;
-		}
-
-		base_name = pfc::stringcvt::string_utf8_from_os(argv[1]);
-		base_name.truncate(base_name.find_last('.'));
-		base_name += " - ";
-
-		pfc::array_t<gme_thread*> threads;
+		if ((int)subsong >= track_count)
+			return -1;
 
 		int voice_count = gme_voice_count(gme);
 
@@ -675,23 +658,32 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		for (int i = 0; i < voice_count; ++i)
 		{
-			threads[i]->startVoice(i);
-		}
-		while (thread_count)
-		{
-			Sleep(100);
-		}
-		for (int i = 0; i < voice_count; ++i)
-		{
-			threads[i]->waitTillDone();
-		}
-		for (int i = 0; i < voice_count; ++i)
-		{
-			delete threads[i];
+			((gme_thread*)(threads[i]))->startVoice(i);
 		}
 	}
+}
 
-	free(song_buffer);
+extern "C" int __declspec(dllexport) __stdcall multidump_threads_running()
+{
+	return thread_count;
+}
+
+extern "C" int __declspec(dllexport) __stdcall multidump_cleanup()
+{
+	while (thread_count)
+	{
+		Sleep(100);
+	}
+
+	size_t voice_count = threads.get_count();
+	for (int i = 0; i < voice_count; ++i)
+	{
+		threads[i]->waitTillDone();
+	}
+	for (int i = 0; i < voice_count; ++i)
+	{
+		delete threads[i];
+	}
 
 	return 0;
 }
