@@ -15,6 +15,21 @@ namespace MultidumperGUI
         public Form1()
         {
             InitializeComponent();
+            Font = SystemFonts.MessageBoxFont;
+            splitContainer.SplitterDistance = splitContainer.Width / 2;
+
+        }
+     
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            splitContainer.SplitterDistance = splitContainer.Width / 2;
+        }
+
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            if ()
         }
     }
 }
