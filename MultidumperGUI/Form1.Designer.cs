@@ -84,13 +84,13 @@
             this.txtFileName.Location = new System.Drawing.Point(70, 12);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.ReadOnly = true;
-            this.txtFileName.Size = new System.Drawing.Size(575, 21);
+            this.txtFileName.Size = new System.Drawing.Size(511, 21);
             this.txtFileName.TabIndex = 1;
             // 
             // btnBrowse
             // 
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Location = new System.Drawing.Point(651, 12);
+            this.btnBrowse.Location = new System.Drawing.Point(587, 12);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(53, 21);
             this.btnBrowse.TabIndex = 2;
@@ -120,8 +120,8 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer.Size = new System.Drawing.Size(691, 423);
-            this.splitContainer.SplitterDistance = 349;
+            this.splitContainer.Size = new System.Drawing.Size(627, 432);
+            this.splitContainer.SplitterDistance = 341;
             this.splitContainer.SplitterWidth = 5;
             this.splitContainer.TabIndex = 3;
             // 
@@ -140,7 +140,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(349, 423);
+            this.groupBox1.Size = new System.Drawing.Size(341, 432);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Info and subsongs";
@@ -161,7 +161,7 @@
             this.lstSubsongs.Location = new System.Drawing.Point(11, 186);
             this.lstSubsongs.MultiSelect = false;
             this.lstSubsongs.Name = "lstSubsongs";
-            this.lstSubsongs.Size = new System.Drawing.Size(332, 231);
+            this.lstSubsongs.Size = new System.Drawing.Size(324, 240);
             this.lstSubsongs.TabIndex = 2;
             this.lstSubsongs.UseCompatibleStateImageBehavior = false;
             this.lstSubsongs.View = System.Windows.Forms.View.Details;
@@ -188,7 +188,7 @@
             this.txtCopyright.Location = new System.Drawing.Point(10, 146);
             this.txtCopyright.Name = "txtCopyright";
             this.txtCopyright.ReadOnly = true;
-            this.txtCopyright.Size = new System.Drawing.Size(333, 21);
+            this.txtCopyright.Size = new System.Drawing.Size(325, 21);
             this.txtCopyright.TabIndex = 1;
             // 
             // txtDumper
@@ -198,7 +198,7 @@
             this.txtDumper.Location = new System.Drawing.Point(10, 109);
             this.txtDumper.Name = "txtDumper";
             this.txtDumper.ReadOnly = true;
-            this.txtDumper.Size = new System.Drawing.Size(333, 21);
+            this.txtDumper.Size = new System.Drawing.Size(325, 21);
             this.txtDumper.TabIndex = 1;
             // 
             // txtSystem
@@ -208,7 +208,7 @@
             this.txtSystem.Location = new System.Drawing.Point(10, 71);
             this.txtSystem.Name = "txtSystem";
             this.txtSystem.ReadOnly = true;
-            this.txtSystem.Size = new System.Drawing.Size(333, 21);
+            this.txtSystem.Size = new System.Drawing.Size(325, 21);
             this.txtSystem.TabIndex = 1;
             // 
             // txtGame
@@ -218,7 +218,7 @@
             this.txtGame.Location = new System.Drawing.Point(10, 34);
             this.txtGame.Name = "txtGame";
             this.txtGame.ReadOnly = true;
-            this.txtGame.Size = new System.Drawing.Size(333, 21);
+            this.txtGame.Size = new System.Drawing.Size(325, 21);
             this.txtGame.TabIndex = 1;
             // 
             // label5
@@ -272,7 +272,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(337, 423);
+            this.groupBox2.Size = new System.Drawing.Size(281, 432);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Channels";
@@ -289,7 +289,7 @@
             this.lstChannels.Location = new System.Drawing.Point(3, 17);
             this.lstChannels.MultiSelect = false;
             this.lstChannels.Name = "lstChannels";
-            this.lstChannels.Size = new System.Drawing.Size(331, 403);
+            this.lstChannels.Size = new System.Drawing.Size(275, 412);
             this.lstChannels.TabIndex = 0;
             this.lstChannels.UseCompatibleStateImageBehavior = false;
             this.lstChannels.View = System.Windows.Forms.View.Details;
@@ -312,7 +312,7 @@
             // btnDump
             // 
             this.btnDump.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDump.Location = new System.Drawing.Point(594, 471);
+            this.btnDump.Location = new System.Drawing.Point(530, 480);
             this.btnDump.Name = "btnDump";
             this.btnDump.Size = new System.Drawing.Size(51, 21);
             this.btnDump.TabIndex = 4;
@@ -324,10 +324,10 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(13, 471);
+            this.progressBar.Location = new System.Drawing.Point(13, 480);
             this.progressBar.Maximum = 100000;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(575, 21);
+            this.progressBar.Size = new System.Drawing.Size(511, 21);
             this.progressBar.TabIndex = 5;
             // 
             // mdProcess
@@ -363,7 +363,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Enabled = false;
-            this.btnCancel.Location = new System.Drawing.Point(651, 471);
+            this.btnCancel.Location = new System.Drawing.Point(587, 480);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(51, 21);
             this.btnCancel.TabIndex = 4;
@@ -376,7 +376,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 504);
+            this.ClientSize = new System.Drawing.Size(650, 513);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnDump);

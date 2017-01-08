@@ -29,7 +29,7 @@ namespace MultidumperGUI
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            splitContainer.SplitterDistance = splitContainer.Width / 2;
+            //splitContainer.SplitterDistance = splitContainer.Width / 2;
 
         }
 
