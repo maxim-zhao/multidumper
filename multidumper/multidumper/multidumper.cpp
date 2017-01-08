@@ -17,7 +17,9 @@ void * song_buffer;
 
 pfc::string8 base_name;
 
-volatile unsigned long long thread_count = 0;
+t_size max_thread_count = 1;
+
+volatile unsigned long thread_count = 0;
 
 struct WriteRegLogOld
 {
@@ -152,8 +154,6 @@ public:
 
 	void threadProc()
 	{
-		InterlockedIncrement(&thread_count);
-
 		gme_t * gme;
 		gme_info_t * info;
 		unsigned int length, fade;
@@ -215,6 +215,20 @@ public:
 		offset = ftell(fw);
 		write_le32(fw, 0);
 
+		while (thread_count >= max_thread_count)
+		{
+			int totlen = length + fade;
+
+			std::stringstream progress;
+			progress << solo_voice << "|" << 0 << "|" << totlen << "\r\n";
+
+			std::cout << progress.str();
+
+			Sleep(100);
+		}
+
+		InterlockedIncrement(&thread_count);
+
 		while (!gme_track_ended(gme))
 		{
 			int mspass = gme_tell(gme);
@@ -232,6 +246,15 @@ public:
 			if (err) break;
 			fwrite(buffer, 2, 1024, fw);
 			written += 2048;
+		}
+
+		{
+			int totlen = length + fade;
+
+			std::stringstream progress;
+			progress << solo_voice << "|" << totlen << "|" << totlen << "\r\n";
+
+			std::cout << progress.str();
 		}
 
 		gme_delete(gme);
@@ -262,8 +285,6 @@ public:
 
 	void threadProc()
 	{
-		InterlockedIncrement(&thread_count);
-
 		void * spu = malloc(spu_get_state_size(1));
 		if (!spu) return;
 
@@ -331,6 +352,18 @@ public:
 		write_le32(fw, 0);
 
 		wanted = spu_length << 2;
+
+		while (thread_count >= max_thread_count)
+		{
+			std::stringstream progress;
+			progress << solo_voice << "|" << 0 << "|" << wanted << "\r\n";
+
+			std::cout << progress.str();
+
+			Sleep(100);
+		}
+
+		InterlockedIncrement(&thread_count);
 
 		while (written < wanted)
 		{
@@ -421,6 +454,20 @@ public:
 				written += rendered << 2;
 			}
 			else break;
+
+			{
+				std::stringstream progress;
+				progress << solo_voice << "|" << written << "|" << wanted << "\r\n";
+
+				std::cout << progress.str();
+			}
+		}
+
+		{
+			std::stringstream progress;
+			progress << solo_voice << "|" << wanted << "|" << wanted << "\r\n";
+
+			std::cout << progress.str();
 		}
 
 		free(spu);
@@ -446,6 +493,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	int argsubsong = -1;
 
 	json j;
+
+	max_thread_count = pfc::getOptimalWorkerThreadCount();
 
 	if (argc < 2 || argc > 3)
 	{
@@ -495,6 +544,58 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	fread(song_buffer, 1, size, f);
 	fclose(f);
+
+	if (((uint8_t*)song_buffer)[0] == 0x1F && ((uint8_t*)song_buffer)[1] == 0x8B)
+	{
+		size_t new_size;
+		void * new_song_buffer;
+
+		{
+			Mem_File_Reader memreader(song_buffer, size);
+
+			Gzip_Extractor gzex;
+
+			blargg_err_t err = gzex.open(&memreader);
+			if (err)
+			{
+				j["error"] = "Error opening gzipped file.";
+
+				std::cout << j;
+				free(song_buffer);
+				return 1;
+			}
+
+			new_size = gzex.size();
+
+			new_song_buffer = malloc(new_size);
+			if (!new_song_buffer)
+			{
+				j["error"] = "Out of memory.";
+
+				std::cout << j;
+				free(song_buffer);
+				return 1;
+			}
+
+			Data_Reader & gzreader = gzex.reader();
+
+			err = gzreader.read(new_song_buffer, new_size);
+
+			if (err)
+			{
+				j["error"] = "Error reading gzipped song.";
+
+				std::cout << j;
+				free(new_song_buffer);
+				free(song_buffer);
+				return 1;
+			}
+		}
+
+		free(song_buffer);
+		song_buffer = new_song_buffer;
+		size = new_size;
+	}
 
 	const TCHAR * ext = _tcsrchr(argv[argname], _T('.'));
 	if (ext && _tcsicmp(ext + 1, _T("spu")) == 0)

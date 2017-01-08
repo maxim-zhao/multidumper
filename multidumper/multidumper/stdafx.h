@@ -15,6 +15,9 @@
 
 #include <pfc/pfc.h>
 
+#include <fex/Data_Reader.h>
+#include <fex/Gzip_Extractor.h>
+
 #include <gme.h>
 
 #include <spu.h>
