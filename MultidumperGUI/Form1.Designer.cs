@@ -361,10 +361,7 @@
             // 
             // btnCancel
             // 
-<<<<<<< HEAD
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-=======
->>>>>>> c6028469dd76b7781837456ac58ef6981896885c
             this.btnCancel.Enabled = false;
             this.btnCancel.Location = new System.Drawing.Point(651, 471);
             this.btnCancel.Name = "btnCancel";
