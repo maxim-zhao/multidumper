@@ -101,7 +101,7 @@
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "Supported formats|*.ay;*.gbs;*.gym;*.hes;*.kss;*.nsf;*.nsfe;*.sap;*.sfm;*.sgc;*.s" +
-    "pc;*.vgm";
+    "pc;*.vgm;*.vgz";
             this.openFileDialog1.SupportMultiDottedExtensions = true;
             // 
             // splitContainer
