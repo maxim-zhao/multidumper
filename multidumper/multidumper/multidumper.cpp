@@ -146,6 +146,7 @@ public:
 	void startVoice(unsigned int voice)
 	{
 		solo_voice = voice;
+		//std::cout << voice << "\r\n";
 		start();
 	}
 
@@ -216,6 +217,17 @@ public:
 
 		while (!gme_track_ended(gme))
 		{
+			int mspass = gme_tell(gme);
+
+			int totlen = length + fade;
+
+			//double percent = mspass / totlen;
+
+			std::stringstream progress;
+			progress << solo_voice << "|" << mspass << "|" << totlen << "\r\n";
+
+			std::cout << progress.str();
+			
 			gme_err_t err = gme_play(gme, 1024, buffer);
 			if (err) break;
 			fwrite(buffer, 2, 1024, fw);
@@ -230,6 +242,7 @@ public:
 		write_le32(fw, written);
 
 		fclose(fw);
+		//std::cout << solo_voice << "!\r\n";
 
 		InterlockedDecrement(&thread_count);
 	}
@@ -243,6 +256,7 @@ public:
 	void startVoice(unsigned int voice)
 	{
 		solo_voice = voice;
+		//std::cout << voice << "\r\n";
 		start();
 	}
 
@@ -417,6 +431,9 @@ public:
 		write_le32(fw, written);
 
 		fclose(fw);
+
+		//std::cout << solo_voice << "!\r\n";
+
 
 		InterlockedDecrement(&thread_count);
 	}
