@@ -21,6 +21,7 @@ AllowNoIcons=yes
 OutputBaseFilename=multidumpersetup
 Compression=lzma
 SolidCompression=yes
+SignTool=mycustomsign /a /d $qMultidumper$q $f
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -30,11 +31,11 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "MultidumperGUI\bin\Release\MultidumperGUI.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "MultidumperGUI\bin\Release\multidumper.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "MultidumperGUI\bin\Release\MultidumperGUI.exe"; DestDir: "{app}"; Flags: ignoreversion sign
+Source: "MultidumperGUI\bin\Release\multidumper.exe"; DestDir: "{app}"; Flags: ignoreversion sign
 Source: "MultidumperGUI\bin\Release\MultidumperGUI.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "MultidumperGUI\bin\Release\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "MultidumperGUI\bin\Release\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "MultidumperGUI\bin\Release\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion sign
+Source: "MultidumperGUI\bin\Release\zlib1.dll"; DestDir: "{app}"; Flags: ignoreversion sign
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
