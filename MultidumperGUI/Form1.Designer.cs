@@ -293,6 +293,7 @@
             this.lstChannels.TabIndex = 0;
             this.lstChannels.UseCompatibleStateImageBehavior = false;
             this.lstChannels.View = System.Windows.Forms.View.Details;
+            this.lstChannels.SelectedIndexChanged += new System.EventHandler(this.lstChannels_SelectedIndexChanged);
             // 
             // chdNumber
             // 

@@ -161,7 +161,7 @@ namespace MultidumperGUI
         private void pdWatcher_Tick(object sender, EventArgs e)
         {
             lstChannels.BeginUpdate();
-            lstChannels.Items.Clear();
+            //lstChannels.Items.Clear();
 
             var items = from pair in progressDictionary
                 orderby pair.Key ascending
@@ -169,12 +169,12 @@ namespace MultidumperGUI
 
             foreach (var d in items)
             {
-                var ls = new ListViewItem();
-                ls.Text = d.Key.ToString();
-                ls.SubItems.Add(songInfo.Channels[d.Key]);
-                ls.SubItems.Add(d.Value.ToString("p"));
+                
+                lstChannels.Items[d.Key].Text = d.Key.ToString();
+                lstChannels.Items[d.Key].SubItems[1].Text = songInfo.Channels[d.Key];
+                lstChannels.Items[d.Key].SubItems[2].Text = d.Value.ToString("p");
 
-                lstChannels.Items.Add(ls);
+                //lstChannels.Items.Add(ls);
 
                 chdVoiceName.Width = -1;
 
@@ -358,6 +358,11 @@ namespace MultidumperGUI
             txtFileName.Text = openFileDialog1.FileName;
 
             loadFile();
+        }
+
+        private void lstChannels_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
