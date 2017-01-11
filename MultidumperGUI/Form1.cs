@@ -63,14 +63,6 @@ namespace MultidumperGUI
             infoProcess.BeginOutputReadLine();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-          
-
-            
-
-        }
-
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
@@ -285,7 +277,7 @@ namespace MultidumperGUI
                     }
                 }
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 e.Cancel = false;
             }
@@ -344,7 +336,7 @@ namespace MultidumperGUI
                 
                     foreach (var s in compatible)
                     {
-                        if (theFilesThatAreThere[0].EndsWith(s))
+                        if (theFilesThatAreThere[0].ToLower().EndsWith(s))
                         {
                             e.Effect= DragDropEffects.Copy;
                         }
@@ -364,5 +356,7 @@ namespace MultidumperGUI
         {
 
         }
+
+      
     }
 }
