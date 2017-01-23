@@ -545,7 +545,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	fread(song_buffer, 1, size, f);
 	fclose(f);
 
-	if (size >= 2 && ((uint8_t*)song_buffer)[0] == 0x1F && ((uint8_t*)song_buffer)[1] == 0x8B)
+	while (size >= 2 && ((uint8_t*)song_buffer)[0] == 0x1F && ((uint8_t*)song_buffer)[1] == 0x8B)
 	{
 		size_t new_size;
 		void * new_song_buffer;
