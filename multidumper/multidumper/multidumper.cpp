@@ -545,7 +545,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	fread(song_buffer, 1, size, f);
 	fclose(f);
 
-	if (((uint8_t*)song_buffer)[0] == 0x1F && ((uint8_t*)song_buffer)[1] == 0x8B)
+	if (size >= 2 && ((uint8_t*)song_buffer)[0] == 0x1F && ((uint8_t*)song_buffer)[1] == 0x8B)
 	{
 		size_t new_size;
 		void * new_song_buffer;
@@ -559,6 +559,16 @@ int _tmain(int argc, _TCHAR* argv[])
 			if (err)
 			{
 				j["error"] = "Error opening gzipped file.";
+
+				std::cout << j;
+				free(song_buffer);
+				return 1;
+			}
+
+			err = gzex.stat();
+			if (err)
+			{
+				j["error"] = "Error probing stats of gzipped file.";
 
 				std::cout << j;
 				free(song_buffer);
@@ -614,14 +624,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		const int track_count = 1;
 		const int voice_count = 24;
 
-		if (argc == 3)
-		{
-			j["error"] = "Subsongs not supported by SPU Logs.";
-
-			std::cout << j;
-			return 1;
-		}
-
 		spu_TicksPerSecond = get_le32((const uint8_t *)song_buffer + 0x80200);
 		spu_LogCount = get_le32((const uint8_t *)song_buffer + 0x80204);
 
@@ -638,12 +640,30 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		if (argjson > 0)
 		{
-			/*fprintf(stdout, "{\"subsongCount\": 1, \"channels\": [");
-			for (int i = 0; i < 24; ++i) fprintf(stdout, "\"SPU ch #%d\"%s", i + 1, i < 24 ? ", " : "");
-			fprintf(stdout, "]}");*/
+			j["subsongCount"] = 1;
+			j["containerinfo"] = {
+				{ "system", "Sony PlayStation" },
+				{ "game", "" },
+				{ "dumper", "" },
+				{ "copyright", "" } };
 
-			//j[]
+			j["songs"] = { {
+				{ "name", "" },
+				{ "author", "" },
+				{ "comment", "" } } };
 
+			std::vector<std::string> channels;
+
+			for (int i = 0; i < voice_count; ++i)
+			{
+				std::stringstream channel;
+				channel << "SPU #" << i;
+				channels.push_back(channel.str());
+			}
+
+			j["channels"] = channels;
+
+			std::cout << j;
 
 			return 0;
 		}
