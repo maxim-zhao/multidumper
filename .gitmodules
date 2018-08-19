@@ -1,9 +1,9 @@
 [submodule "File_Extractor"]
 	path = File_Extractor
-	url = https://gitlab.kode54.net/kddlb/File_Extractor.git
+	url = https://bitbucket.org/losnoco/File_Extractor.git
 [submodule "Game_Music_Emu"]
 	path = Game_Music_Emu
-	url = https://gitlab.kode54.net/kddlb/Game_Music_Emu.git
+	url = https://bitbucket.org/losnoco/Game_Music_Emu.git
 [submodule "PSXCore"]
 	path = PSXCore
-	url = https://gitlab.kode54.net/kddlb/Highly_Experimental.git
+	url = https://bitbucket.org/losnoco/Highly_Experimental.git
