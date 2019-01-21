@@ -1,9 +1,9 @@
 [submodule "File_Extractor"]
 	path = File_Extractor
-	url = https://bitbucket.org/losnoco/File_Extractor.git
+	url = https://github.com/losnoco/File_Extractor.git
 [submodule "Game_Music_Emu"]
 	path = Game_Music_Emu
-	url = https://bitbucket.org/losnoco/Game_Music_Emu.git
+	url = https://github.com/losnoco/Game_Music_Emu.git
 [submodule "PSXCore"]
 	path = PSXCore
-	url = https://bitbucket.org/losnoco/Highly_Experimental.git
+	url = https://github.com/losnoco/Highly_Experimental.git
