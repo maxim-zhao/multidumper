@@ -175,7 +175,7 @@ public:
 		else if (info->length > 0)
 		{
 			length = info->length;
-			fade = 0;
+			fade = 8000;
 		}
 		else
 		{
