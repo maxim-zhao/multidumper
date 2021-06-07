@@ -22,7 +22,7 @@ pfc::string8 base_name;
 
 t_size max_thread_count = 1;
 
-volatile unsigned long thread_count = 0;
+volatile LONG thread_count = 0;
 
 struct WriteRegLogOld
 {
@@ -501,7 +501,7 @@ public:
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int argname = -1;
-	int argjson = -1;
+	bool dump_metadata_as_json = false;
 	bool show_help = false;
 
 	json j;
@@ -512,9 +512,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		if (_tcsicmp(argv[i], _T("--json")) == 0)
 		{
-			argjson = i;
+			dump_metadata_as_json = true;
 		}
-		if (_tcsicmp(argv[i], _T("--no_progress")) == 0)
+		else if (_tcsicmp(argv[i], _T("--no_progress")) == 0)
 		{
 			show_progress = false;
 		}
@@ -522,13 +522,25 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			sampling_rate = std::stoi(argv[i] + 16);
 		}
+		else if (_tcsicmp(argv[i], _T("--help")) == 0 || _tcsicmp(argv[i], _T("-h")) == 0 || _tcsicmp(argv[i], _T("/h")) == 0)
+		{
+			show_help = true;
+		}
 		else if (argname == -1)
 		{
 			argname = i;
 		}
 		else if (track_number == 0)
 		{
-			track_number = std::stoi(argv[i]);
+			try
+			{
+				track_number = std::stoi(argv[i]);
+			}
+			catch (const std::exception&)
+			{
+				fprintf(stderr, "Error parsing track number \"%ls\"\n", argv[i]);
+				show_help = true;
+			}
 		}
 		else
 		{
@@ -536,7 +548,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 
-	if (show_help || argname == -1)
+    if (show_help || argname == -1)
 	{
 		fprintf(stderr, "Usage: multidumper <path> [subsong] [--json] [--no_progress] [--sampling_rate=<number>]\n");
 		return 1;
@@ -668,7 +680,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			spu_LogCount = 0;
 		}
 
-		if (argjson > 0)
+		if (dump_metadata_as_json)
 		{
 			j["subsongCount"] = 1;
 			j["containerinfo"] = {
@@ -852,7 +864,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		int track_count = gme_track_count(gme);
 
-		if (argjson > 0)
+		if (dump_metadata_as_json)
 		{
 			/*fprintf(stdout, "{\"subsongCount\": %d, \"system\": \"%s\", \"channels\": [", track_count, gmeinfo->system);
 			for (int i = 0; i < voice_count; ++i) fprintf(stdout, "\"%s\"%s", gme_voice_name(gme, i), i < voice_count-1 ? ", " : "");
