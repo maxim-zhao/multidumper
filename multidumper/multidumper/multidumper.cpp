@@ -10,10 +10,11 @@ typedef struct gme_job
 	unsigned int solo_voice;
 } gme_job;
 
-int track_number;
+int track_number = 0;
 
 size_t size;
 void * song_buffer;
+int sampling_rate = 44100;
 
 pfc::string8 base_name;
 
@@ -163,7 +164,7 @@ public:
 
 		pfc::string8 name = base_name;
 
-		gme_open_data(song_buffer, size, &gme, 44100);
+		gme_open_data(song_buffer, size, &gme, sampling_rate);
 
 		gme_track_info(gme, &info, track_number);
 
@@ -206,8 +207,8 @@ public:
 		write_le32(fw, 16);
 		write_le16(fw, 1); // PCM
 		write_le16(fw, 2); // stereo
-		write_le32(fw, 44100); // sample rate
-		write_le32(fw, 44100 * 2 * 2); // times stereo, 16 bits
+		write_le32(fw, sampling_rate); // sample sampling_rate
+		write_le32(fw, sampling_rate * 2 * 2); // times stereo, 16 bits
 		write_le16(fw, 2 * 2); // stereo, 16 bits
 		write_le16(fw, 16); // bits
 
@@ -342,8 +343,8 @@ public:
 		write_le32(fw, 16);
 		write_le16(fw, 1); // PCM
 		write_le16(fw, 2); // stereo
-		write_le32(fw, 44100); // sample rate
-		write_le32(fw, 44100 * 2 * 2); // times stereo, 16 bits
+		write_le32(fw, sampling_rate); // sample sampling_rate
+		write_le32(fw, sampling_rate * 2 * 2); // times stereo, 16 bits
 		write_le16(fw, 2 * 2); // stereo, 16 bits
 		write_le16(fw, 16); // bits
 
@@ -421,9 +422,9 @@ public:
 					}
 					else
 					{
-						if (spu_TicksPerSecond != 44100)
+						if (spu_TicksPerSecond != sampling_rate)
 						{
-							samples = (spu_log_data[CurrentLog].Tick - CurrentTick) * 44100 + remain;
+							samples = (spu_log_data[CurrentLog].Tick - CurrentTick) * sampling_rate + remain;
 							remain = samples % spu_TicksPerSecond;
 							samples = samples / spu_TicksPerSecond;
 						}
@@ -490,34 +491,48 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	int argname = -1;
 	int argjson = -1;
-	int argsubsong = -1;
+	bool show_help = false;
 
 	json j;
 
 	max_thread_count = pfc::getOptimalWorkerThreadCount();
 
-	if (argc < 2 || argc > 3)
-	{
-		fprintf(stderr, "Usage: multidumper <path> [subsong]\n");
-		return 1;
-	}
-
 	for (int i = 1; i < argc; ++i)
 	{
-		if (_tcsicmp(argv[i], _T("--json")) == 0)
-		{
+	    if (_tcsicmp(argv[i], _T("--json")) == 0)
+	    {
 			argjson = i;
-			break;
+	    }
+		else if (_tcsnicmp(argv[i], _T("--sampling_rate="), 7) == 0)
+		{
+			sampling_rate = std::stoi(argv[i] + 16);
+		}
+		else if (argname == -1)
+		{
+			argname = i;
+		}
+		else if (track_number == 0)
+		{
+			track_number = std::stoi(argv[i]);
+		}
+		else
+		{
+			show_help = true;
 		}
 	}
 
-	if (argjson == 1) argname = 2;
-	else argname = 1;
+	if (show_help || argname == -1)
+	{
+		fprintf(stderr, "Usage: multidumper <path> [subsong] [--json] [--sampling_rate=<number>]\n");
+		return 1;
+	}
 
-	if (argjson > argname) argsubsong = argjson + 1;
-	else argsubsong = argname + 1;
+	printf("File is %s\n", argv[argname]);
+	printf("Subsong is %d\n", track_number);
+	printf("Sampling sampling_rate is %d\n", sampling_rate);
 
-	FILE * f = _tfopen(argv[argname], _T("rb"));
+
+    FILE * f = _tfopen(argv[argname], _T("rb"));
 	if (!f)
 	{
 		
@@ -634,7 +649,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		else
 		{
 			spu_length = spu_TicksPerSecond;
-			spu_TicksPerSecond = 44100;
+			spu_TicksPerSecond = sampling_rate;
 			spu_LogCount = 0;
 		}
 
@@ -804,7 +819,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		gme_t * gme;
 
-		gme_err_t err = gme_open_data(song_buffer, size, &gme, 44100);
+		gme_err_t err = gme_open_data(song_buffer, size, &gme, sampling_rate);
 
 
 		if (err)
@@ -872,20 +887,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			return 0;
 		}
 
-		if (argc == 2)
+		if (track_number < 0 || track_number >= track_count)
 		{
-			fprintf(stderr, "Song count: %d\n", track_count);
-			gme_delete(gme);
-			free(song_buffer);
-			return 0;
-		}
-
-		TCHAR * end;
-
-		track_number = (int)_tcstol(argv[argsubsong], &end, 0);
-		if (*end || track_number < 0 || track_number >= track_count)
-		{
-			_ftprintf(stderr, _T("Invalid track number: %s (Should be 0 - %d)\n"), argv[argsubsong], track_count - 1);
+			_ftprintf(stderr, _T("Invalid track number: %d (Should be 0 - %d)\n"), track_number, track_count - 1);
 			gme_delete(gme);
 			free(song_buffer);
 			return 1;
