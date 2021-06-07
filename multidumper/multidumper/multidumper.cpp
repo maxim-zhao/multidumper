@@ -16,6 +16,8 @@ size_t size;
 void * song_buffer;
 int sampling_rate = 44100;
 
+bool show_progress = true;
+
 pfc::string8 base_name;
 
 t_size max_thread_count = 1;
@@ -218,13 +220,15 @@ public:
 
 		while (thread_count >= max_thread_count)
 		{
-			int totlen = length + fade;
+			if (show_progress)
+			{
+				int totlen = length + fade;
 
-			std::stringstream progress;
-			progress << solo_voice << "|" << 0 << "|" << totlen << "\r\n";
+				std::stringstream progress;
+				progress << solo_voice << "|" << 0 << "|" << totlen << "\r\n";
 
-			std::cout << progress.str();
-
+				std::cout << progress.str();
+			}
 			Sleep(100);
 		}
 
@@ -232,23 +236,26 @@ public:
 
 		while (!gme_track_ended(gme))
 		{
-			int mspass = gme_tell(gme);
+			if (show_progress)
+			{
+				int mspass = gme_tell(gme);
 
-			int totlen = length + fade;
+				int totlen = length + fade;
 
-			//double percent = mspass / totlen;
+				//double percent = mspass / totlen;
 
-			std::stringstream progress;
-			progress << solo_voice << "|" << mspass << "|" << totlen << "\r\n";
+				std::stringstream progress;
+				progress << solo_voice << "|" << mspass << "|" << totlen << "\r\n";
 
-			std::cout << progress.str();
-			
+				std::cout << progress.str();
+			}
 			gme_err_t err = gme_play(gme, 1024, buffer);
 			if (err) break;
 			fwrite(buffer, 2, 1024, fw);
 			written += 2048;
 		}
 
+		if (show_progress)
 		{
 			int totlen = length + fade;
 
@@ -356,11 +363,13 @@ public:
 
 		while (thread_count >= max_thread_count)
 		{
-			std::stringstream progress;
-			progress << solo_voice << "|" << 0 << "|" << wanted << "\r\n";
+			if (show_progress)
+			{
+				std::stringstream progress;
+				progress << solo_voice << "|" << 0 << "|" << wanted << "\r\n";
 
-			std::cout << progress.str();
-
+				std::cout << progress.str();
+			}
 			Sleep(100);
 		}
 
@@ -456,6 +465,7 @@ public:
 			}
 			else break;
 
+			if (show_progress)
 			{
 				std::stringstream progress;
 				progress << solo_voice << "|" << written << "|" << wanted << "\r\n";
@@ -464,6 +474,7 @@ public:
 			}
 		}
 
+		if (show_progress)
 		{
 			std::stringstream progress;
 			progress << solo_voice << "|" << wanted << "|" << wanted << "\r\n";
@@ -499,10 +510,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	for (int i = 1; i < argc; ++i)
 	{
-	    if (_tcsicmp(argv[i], _T("--json")) == 0)
-	    {
+		if (_tcsicmp(argv[i], _T("--json")) == 0)
+		{
 			argjson = i;
-	    }
+		}
+		if (_tcsicmp(argv[i], _T("--no_progress")) == 0)
+		{
+			show_progress = false;
+		}
 		else if (_tcsnicmp(argv[i], _T("--sampling_rate="), 7) == 0)
 		{
 			sampling_rate = std::stoi(argv[i] + 16);
@@ -523,13 +538,13 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	if (show_help || argname == -1)
 	{
-		fprintf(stderr, "Usage: multidumper <path> [subsong] [--json] [--sampling_rate=<number>]\n");
+		fprintf(stderr, "Usage: multidumper <path> [subsong] [--json] [--no_progress] [--sampling_rate=<number>]\n");
 		return 1;
 	}
 
-	printf("File is %s\n", argv[argname]);
-	printf("Subsong is %d\n", track_number);
-	printf("Sampling sampling_rate is %d\n", sampling_rate);
+	fprintf(stderr, "File is %ls\n", argv[argname]);
+	fprintf(stderr, "Subsong is %d\n", track_number);
+	fprintf(stderr, "Sampling rate is %d\n", sampling_rate);
 
 
     FILE * f = _tfopen(argv[argname], _T("rb"));
