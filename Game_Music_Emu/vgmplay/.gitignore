@@ -1,0 +1,38 @@
+##################
+## Visual Studio 6
+##################
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+*.exe
+*.dll
+
+# Object files
+*.ilk
+*.obj
+*.pch
+*.pdb
+*.sbr
+*.tmp
+
+# Project cache files
+*.aps
+*.ncb
+*.opt
+*.sdf
+*.suo
+*.user
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Unix
+*.o
+libvgmplay.a
+vgm2pcm
+vgm2wav
+
+# Apple
+.DS_Store

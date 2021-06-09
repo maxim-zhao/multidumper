@@ -1,9 +1,0 @@
-[submodule "File_Extractor"]
-	path = File_Extractor
-	url = https://github.com/losnoco/File_Extractor.git
-[submodule "Game_Music_Emu"]
-	path = Game_Music_Emu
-	url = https://github.com/losnoco/Game_Music_Emu.git
-[submodule "PSXCore"]
-	path = PSXCore
-	url = https://github.com/losnoco/Highly_Experimental.git
