@@ -15,6 +15,9 @@ int track_number = 0;
 size_t size;
 void * song_buffer;
 int sampling_rate = 44100;
+int play_length = -1;
+int loop_count = 2;
+int fade_length = 8000;
 
 bool show_progress = true;
 
@@ -170,20 +173,25 @@ public:
 
 		gme_track_info(gme, &info, track_number);
 
-		if (info->loop_length > 0)
+		if (play_length > 0)
 		{
-			length = info->intro_length + info->loop_length * 2;
-			fade = 8000;
+		    length = play_length;
+			fade = fade_length;
+		}
+		else if (info->loop_length > 0)
+		{
+			length = info->intro_length + info->loop_length * loop_count;
+			fade = fade_length;
 		}
 		else if (info->length > 0)
 		{
 			length = info->length;
-			fade = 8000;
+			fade = fade_length;
 		}
 		else
 		{
-			length = 180000;
-			fade = 8000;
+			length = 180000; // Default 3 minutes
+			fade = fade_length;
 		}
 
 		unsigned int mute_mask = ~(1 << solo_voice);
@@ -518,9 +526,21 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			show_progress = false;
 		}
-		else if (_tcsnicmp(argv[i], _T("--sampling_rate="), 7) == 0)
+		else if (_tcsnicmp(argv[i], _T("--sampling_rate="), 16) == 0)
 		{
 			sampling_rate = std::stoi(argv[i] + 16);
+		}
+		else if (_tcsnicmp(argv[i], _T("--play_length="), 14) == 0)
+		{
+			play_length = std::stoi(argv[i] + 14);
+		}
+		else if (_tcsnicmp(argv[i], _T("--fade_length="), 14) == 0)
+		{
+			fade_length = std::stoi(argv[i] + 14);
+		}
+		else if (_tcsnicmp(argv[i], _T("--loop_count="), 13) == 0)
+		{
+			loop_count = std::stoi(argv[i] + 13);
 		}
 		else if (_tcsicmp(argv[i], _T("--help")) == 0 || _tcsicmp(argv[i], _T("-h")) == 0 || _tcsicmp(argv[i], _T("/h")) == 0)
 		{
@@ -550,7 +570,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     if (show_help || argname == -1)
 	{
-		fprintf(stderr, "Usage: multidumper <path> [subsong] [--json] [--no_progress] [--sampling_rate=<number>]\n");
+		fprintf(stderr, "Usage: multidumper <path> [subsong] [--json] [--no_progress] [--sampling_rate=<number>] [--play_length=<number>] [--fade_length=<number>] [--loop_count=<number>]\n");
 		return 1;
 	}
 
@@ -880,21 +900,24 @@ int _tmain(int argc, _TCHAR* argv[])
 				{ "dumper", gmeinfo_first->dumper },
 				{ "copyright", gmeinfo_first->copyright } };
 
-			std::vector<std::map<std::string, std::string>> infos;
+			json infos = json::array();
 
 			for (int x = 0; x < track_count; ++x)
 			{
-
 				gme_info_t * gmeinfo;
 
 				gme_err_t inferrs = gme_track_info(gme, &gmeinfo, x);
 
-
-				infos.push_back({ 
-					{ "name", gmeinfo->song },
-				    { "author", gmeinfo->author },
-					{ "comment", gmeinfo->comment } });
-
+				infos.push_back({
+					{"name", gmeinfo->song},
+					{"author", gmeinfo->author},
+					{"comment", gmeinfo->comment},
+					{"length", gmeinfo->length},
+					{"loop_length", gmeinfo->loop_length},
+					{"intro_length", gmeinfo->intro_length},
+					{"fade_length", gmeinfo->fade_length},
+					{"play_length", gmeinfo->play_length},
+					});
 				gme_free_info(gmeinfo);
 			}
 
