@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 
+#include "Music_Emu.h"
+
 using json = nlohmann::json;
 
 typedef struct gme_job
@@ -18,6 +20,7 @@ int sampling_rate = 44100;
 int play_length = -1;
 int loop_count = 2;
 int fade_length = 8000;
+int gap_length = 1000;
 
 bool show_progress = true;
 
@@ -165,7 +168,8 @@ public:
 		unsigned int length, fade;
 		size_t offset, written = 0;
 
-		signed short buffer[1024];
+#define BUFFER_SAMPLE_COUNT 1024
+		signed short buffer[BUFFER_SAMPLE_COUNT*2]; // x2 for stereo
 
 		pfc::string8 name = base_name;
 
@@ -226,12 +230,23 @@ public:
 		offset = ftell(fw);
 		write_le32(fw, 0);
 
+		uint64_t totlen = length;
+		if (info->loop_length > 0)
+		{
+			// Loops fade
+			totlen += fade;
+		}
+		else
+		{
+			// Non-looped have a bit of silence
+			totlen += gap_length;
+		}
+		uint64_t remaining = totlen * 44100 / 1000; // sample count
+
 		while (thread_count >= max_thread_count)
 		{
 			if (show_progress)
 			{
-				int totlen = length + fade;
-
 				std::stringstream progress;
 				progress << solo_voice << "|" << 0 << "|" << totlen << "\r\n";
 
@@ -242,13 +257,11 @@ public:
 
 		InterlockedIncrement(&thread_count);
 
-		while (!gme_track_ended(gme))
+		while (remaining > 0) // was (!gme_track_ended(gme))
 		{
 			if (show_progress)
 			{
 				int mspass = gme_tell(gme);
-
-				int totlen = length + fade;
 
 				//double percent = mspass / totlen;
 
@@ -257,15 +270,19 @@ public:
 
 				std::cout << progress.str();
 			}
-			gme_err_t err = gme_play(gme, 1024, buffer);
+
+			// Render a full buffer or part thereof if near the end
+			int count = (int)std::min((uint64_t)BUFFER_SAMPLE_COUNT, remaining);
+
+			gme_err_t err = gme_play(gme, count*2, buffer);
 			if (err) break;
-			fwrite(buffer, 2, 1024, fw);
-			written += 2048;
+			fwrite(buffer, sizeof(signed short), count*2, fw); // *2 for stereo
+			written += count * sizeof(signed short) * 2;
+			remaining -= count;
 		}
 
 		if (show_progress)
 		{
-			int totlen = length + fade;
 
 			std::stringstream progress;
 			progress << solo_voice << "|" << totlen << "|" << totlen << "\r\n";
@@ -538,6 +555,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			fade_length = std::stoi(argv[i] + 14);
 		}
+		else if (_tcsnicmp(argv[i], _T("--gap_length="), 13) == 0)
+		{
+			gap_length = std::stoi(argv[i] + 13);
+		}
 		else if (_tcsnicmp(argv[i], _T("--loop_count="), 13) == 0)
 		{
 			loop_count = std::stoi(argv[i] + 13);
@@ -570,7 +591,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     if (show_help || argname == -1)
 	{
-		fprintf(stderr, "Usage: multidumper <path> [subsong] [--json] [--no_progress] [--sampling_rate=<number>] [--play_length=<number>] [--fade_length=<number>] [--loop_count=<number>]\n");
+		fprintf(stderr, "Usage: multidumper <path> <subsong> [--json] [--no_progress] [--sampling_rate=<number>] [--play_length=<ms>] [--fade_length=<ms>] [--gap_length=<ms>] [--loop_count=<number>]\n");
 		return 1;
 	}
 
