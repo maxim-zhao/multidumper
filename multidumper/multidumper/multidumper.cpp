@@ -1,9 +1,16 @@
 // multidumper.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
+#include <pfc/pfc.h>
 
-#include "Music_Emu.h"
+// For reasons, we get issues with blargg_common if we don't put the gme includes before fex
+#include <gme/Music_Emu.h>
+#include <Data_Reader.h>
+#include <Gzip_Extractor.h>
+#include <spu.h>
+#include <spucore.h>
+
+#include "json.hpp"
 
 using json = nlohmann::json;
 

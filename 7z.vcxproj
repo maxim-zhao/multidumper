@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="File_Extractor\7z_C\7zAlloc.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zBuf.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zBuf2.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zCrc.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zCrcOpt.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zDec.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zDecode.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zExtract.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zFile.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zHeader.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zIn.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zItem.c" />
+    <ClCompile Include="File_Extractor\7z_C\7zStream.c" />
+    <ClCompile Include="File_Extractor\7z_C\Alloc.c" />
+    <ClCompile Include="File_Extractor\7z_C\Bcj2.c" />
+    <ClCompile Include="File_Extractor\7z_C\Bra.c" />
+    <ClCompile Include="File_Extractor\7z_C\Bra86.c" />
+    <ClCompile Include="File_Extractor\7z_C\BraIA64.c" />
+    <ClCompile Include="File_Extractor\7z_C\CpuArch.c" />
+    <ClCompile Include="File_Extractor\7z_C\Delta.c" />
+    <ClCompile Include="File_Extractor\7z_C\LzFind.c" />
+    <ClCompile Include="File_Extractor\7z_C\LzFindMt.c" />
+    <ClCompile Include="File_Extractor\7z_C\Lzma2Dec.c" />
+    <ClCompile Include="File_Extractor\7z_C\Lzma2Enc.c" />
+    <ClCompile Include="File_Extractor\7z_C\Lzma86Dec.c" />
+    <ClCompile Include="File_Extractor\7z_C\Lzma86Enc.c" />
+    <ClCompile Include="File_Extractor\7z_C\LzmaDec.c" />
+    <ClCompile Include="File_Extractor\7z_C\LzmaEnc.c" />
+    <ClCompile Include="File_Extractor\7z_C\LzmaLib.c" />
+    <ClCompile Include="File_Extractor\7z_C\MtCoder.c" />
+    <ClCompile Include="File_Extractor\7z_C\Ppmd7.c" />
+    <ClCompile Include="File_Extractor\7z_C\Ppmd7Dec.c" />
+    <ClCompile Include="File_Extractor\7z_C\Ppmd7Enc.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="File_Extractor\7z_C\7zAlloc.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zBuf.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zCrc.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zDecode.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zExtract.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zFile.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zHeader.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zIn.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zItem.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zTypes.h" />
+    <ClInclude Include="File_Extractor\7z_C\7zVersion.h" />
+    <ClInclude Include="File_Extractor\7z_C\Alloc.h" />
+    <ClInclude Include="File_Extractor\7z_C\Bcj2.h" />
+    <ClInclude Include="File_Extractor\7z_C\Bra.h" />
+    <ClInclude Include="File_Extractor\7z_C\CpuArch.h" />
+    <ClInclude Include="File_Extractor\7z_C\Delta.h" />
+    <ClInclude Include="File_Extractor\7z_C\LzFind.h" />
+    <ClInclude Include="File_Extractor\7z_C\LzFindMt.h" />
+    <ClInclude Include="File_Extractor\7z_C\LzHash.h" />
+    <ClInclude Include="File_Extractor\7z_C\Lzma2Dec.h" />
+    <ClInclude Include="File_Extractor\7z_C\Lzma2Enc.h" />
+    <ClInclude Include="File_Extractor\7z_C\Lzma86.h" />
+    <ClInclude Include="File_Extractor\7z_C\LzmaDec.h" />
+    <ClInclude Include="File_Extractor\7z_C\LzmaEnc.h" />
+    <ClInclude Include="File_Extractor\7z_C\LzmaLib.h" />
+    <ClInclude Include="File_Extractor\7z_C\LzmaTypes.h" />
+    <ClInclude Include="File_Extractor\7z_C\MtCoder.h" />
+    <ClInclude Include="File_Extractor\7z_C\Ppmd.h" />
+    <ClInclude Include="File_Extractor\7z_C\Ppmd7.h" />
+    <ClInclude Include="File_Extractor\7z_C\RotateDefs.h" />
+    <ClInclude Include="File_Extractor\7z_C\Threads.h" />
+    <ClInclude Include="File_Extractor\7z_C\Types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="File_Extractor\7z_C\changes.txt" />
+    <Text Include="File_Extractor\7z_C\lzma.txt" />
+    <Text Include="File_Extractor\7z_C\readme.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{A41EA9A0-A778-4B49-B6A6-2D1CD84E6FC6}</ProjectGuid>
+    <RootNamespace>7z</RootNamespace>
+    <ProjectName>7z</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(Platform)\$(Configuration)\7z\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Platform)\$(Configuration)\7z\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>zlib/zlib;File_Extractor/fex</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>EMU_COMPILE;EMU_LITTLE_ENDIAN;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>zlib/zlib;File_Extractor/fex;File_Extractor</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

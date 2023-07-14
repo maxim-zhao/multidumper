@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\ChipMapper.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2151intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2203intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2413intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2608intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2610intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2612intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\262intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\3526intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\3812intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\8950intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\adlibemu_opl2.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\adlibemu_opl3.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ay8910.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ay_intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\c140.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\c352.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\c6280.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\c6280intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\dac_control.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\emu2149.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\emu2413.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\es5503.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\es5506.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\fm.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\fm2612.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\fmopl.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\gb.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\iremga20.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\k051649.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\k053260.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\k054539.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\multipcm.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\nes_apu.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\nes_intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\np_nes_apu.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\np_nes_dmc.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\np_nes_fds.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\okim6258.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\okim6295.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\Ootake_PSG.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\panning.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\pokey.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\pwm.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\qsound.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\rf5c68.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\saa1099.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\scd_pcm.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\scsp.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\segapcm.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\sn76489.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\sn76496.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\sn764intf.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\upd7759.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\vsu.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ws_audio.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\x1_010.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\yam.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ym2151.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ym2413.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ym2612.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymdeltat.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymf262.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymf271.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymf278b.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymz280b.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\resampler.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\VGMPlay.c" />
+    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\VGMPlay_AddFmts.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\ChipMapper.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2151intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2203intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2413intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2413tone.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2608intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2610intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\2612intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\262intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\281btone.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\3526intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\3812intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\8950intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\adlibemu.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ay8910.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ay_intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\c140.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\c352.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\c6280.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\c6280intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ChipIncl.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\dac_control.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\emu2149.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\emu2413.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\emuconfig.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\emutypes.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\es5503.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\es5506.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\fm.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\fmopl.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\gb.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\iremga20.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\k051649.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\k053260.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\k054539.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\mamedef.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\multipcm.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\nes_apu.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\nes_defs.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\nes_intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\np_nes_apu.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\np_nes_dmc.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\np_nes_fds.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\okim6258.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\okim6295.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\Ootake_PSG.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\panning.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\pokey.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\pwm.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\qsound.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\rf5c68.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\saa1099.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\scd_pcm.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\scsp.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\segapcm.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\sn76489.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\sn76496.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\sn764intf.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\upd7759.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\vrc7tone.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\vsu.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ws_audio.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ws_initialIo.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\x1_010.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\yam.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ym2151.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ym2413.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ym2612.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymdeltat.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymf262.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymf271.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymf278b.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\chips\ymz280b.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\resampler.h" />
+    <ClInclude Include="Game_Music_Emu\vgmplay\VGMPlay\VGMPlay.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Game_Music_Emu\vgmplay\VGMPlay\chips\emu2413_NESpatches.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{51ACF340-4ACE-4F1B-80DE-653A4581418E}</ProjectGuid>
+    <RootNamespace>vgmplay</RootNamespace>
+    <ProjectName>vgmplay</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(Platform)\$(Configuration)\vgmplay\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Platform)\$(Configuration)\vgmplay\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>zlib/zlib</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>zlib/zlib</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
