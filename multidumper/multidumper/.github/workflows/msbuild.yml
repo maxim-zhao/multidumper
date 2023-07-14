@@ -1,0 +1,42 @@
+name: MSBuild
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1.3
+
+    - name: Restore NuGet packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore multidumper\multidumper.sln
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=Release /p:Version=0.${{github.run_number}}+${{github.sha}} multidumper\multidumper.sln
+
+    - name: Zip
+      shell: cmd
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: |
+        7z a "multidumper-v0.${{github.run_number}}.zip" .\multidumper\x64\Release\*.exe
+
+    - name: Create release
+      if: github.ref == 'refs/heads/master'
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{secrets.GITHUB_TOKEN}}"
+        automatic_release_tag: "v0.${{github.run_number}}"
+        prerelease: false
+        title: "Automatic build #${{github.run_number}}"
+        files: |
+          *.zip
