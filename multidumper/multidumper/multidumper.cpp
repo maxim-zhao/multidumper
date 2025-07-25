@@ -8,6 +8,7 @@
 #include <spu.h>
 #include <spucore.h>
 // For reasons, we get issues with blargg_common if we put the gme includes before fex
+#include <regex>
 #include <gme/Music_Emu.h>
 
 #include "json.hpp"
@@ -555,52 +556,41 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	for (int i = 1; i < argc; ++i)
 	{
-		if (_tcsicmp(argv[i], _T("--json")) == 0)
+		static const std::map<std::wstring, std::function<void()>> handlers = {
+			{L"json", [&]{ dump_metadata_as_json = true; }},
+			{L"np_progress", [&] { show_progress = false; }},
+		};
+        std::match_results<const TCHAR*> m;
+		if (std::regex_match(argv[i], m, std::basic_regex<TCHAR>(_T("--([^=]+)(=(.+))?"))))
 		{
-			dump_metadata_as_json = true;
+			const auto& key = m[1].str();
+			const auto& value = m[3].str();
+			const std::map<std::wstring, std::function<void()>> handlers = {
+				{L"json", [&]{ dump_metadata_as_json = true; }},
+				{L"no_progress", [&] { show_progress = false; }},
+				{L"sampling_rate", [&] { sampling_rate = std::stoi(value); }},
+				{L"play_length", [&] { play_length = std::stoi(value); }},
+				{L"fade_length", [&] { fade_length = std::stoi(value); }},
+				{L"gap_length", [&] { gap_length = std::stoi(value); }},
+				{L"loop_count", [&] { loop_count = std::stoi(value); }},
+				{L"default_filter", [&] { apply_filter = false; }},
+				{L"bass_filter", [&] { bass_filter = std::stod(value); }},
+				{L"treble_filter", [&] { treble_filter = std::stod(value); }},
+				{L"help", [&] { show_help = true; }},
+			};
+			const auto it = handlers.find(key);
+			if (it != handlers.end())
+			{
+			    it->second();
+			}
 		}
-		else if (_tcsicmp(argv[i], _T("--no_progress")) == 0)
-		{
-			show_progress = false;
-		}
-		else if (_tcsnicmp(argv[i], _T("--sampling_rate="), 16) == 0)
-		{
-			sampling_rate = std::stoi(argv[i] + 16);
-		}
-		else if (_tcsnicmp(argv[i], _T("--play_length="), 14) == 0)
-		{
-			play_length = std::stoi(argv[i] + 14);
-		}
-		else if (_tcsnicmp(argv[i], _T("--fade_length="), 14) == 0)
-		{
-			fade_length = std::stoi(argv[i] + 14);
-		}
-		else if (_tcsnicmp(argv[i], _T("--gap_length="), 13) == 0)
-		{
-			gap_length = std::stoi(argv[i] + 13);
-		}
-		else if (_tcsnicmp(argv[i], _T("--loop_count="), 13) == 0)
-		{
-			loop_count = std::stoi(argv[i] + 13);
-		}
-		else if (_tcsnicmp(argv[i], _T("--default_filter"), 16) == 0)
-		{
-			apply_filter = false;
-		}
-		else if (_tcsnicmp(argv[i], _T("--bass_filter="), 14) == 0)
-		{
-			bass_filter = std::stoi(argv[i] + 14);
-		}
-		else if (_tcsnicmp(argv[i], _T("--treble_filter="), 16) == 0)
-		{
-			treble_filter = std::stoi(argv[i] + 16);
-		}
-		else if (_tcsicmp(argv[i], _T("--help")) == 0 || _tcsicmp(argv[i], _T("-h")) == 0 || _tcsicmp(argv[i], _T("/h")) == 0)
+		else if (_tcsicmp(argv[i], _T("-h")) == 0 || _tcsicmp(argv[i], _T("/h")) == 0)
 		{
 			show_help = true;
 		}
 		else if (argname == -1)
 		{
+			// Capture first unnamed arg as filename (by index)
 			argname = i;
 		}
 		else if (track_number == 0)
@@ -635,15 +625,19 @@ int _tmain(int argc, _TCHAR* argv[])
 			"--gap_length=<ms>           How long to play silence at the end of a fixed-length file (like a non-looping VGM). Default is 1s.\n"
 			"--loop_count=<number>       Loop count, for files that know about looping (like VGM). Default is 2, meaning play the looped part twice.\n"
 			"--default_filter            Enable game_music_emu's default filters based on file type. Default is no filtering.\n"
+			"--treble_filter=<number>    Set game_music_emu's treble filter to this value. -50.0 = muffled, 0 = flat, +5.0 = extra-crisp.\n"
 			"--bass_filter=<number>      Set game_music_emu's bass filter to this value. 1 = full bass, 90 = average, 16000 = almost no bass.\n"
-			"--treble_filter=<number>    Set game_music_emu's treble filter to this value. -50.0 = muffled, 0 = flat, +5.0 = extra-crisp.\n");
+            "Here's some of game_music_emu's built-in filters:\n"
+            "Name                Treble   Bass\n"
+            "Game Boy speaker     -47     2000\n"
+            "Game Boy headphones    0      300\n"
+            "TV                    -8      180\n"
+            "NES                   -1       80\n"
+            "Famicom              -15       80\n"
+            "GBS files             -1      120\n"
+            "VGM files            -14       80");
 		return 1;
 	}
-
-	fprintf(stderr, "File is %ls\n", argv[argname]);
-	fprintf(stderr, "Subsong is %d\n", track_number);
-	fprintf(stderr, "Sampling rate is %d\n", sampling_rate);
-
 
     FILE * f = _tfopen(argv[argname], _T("rb"));
 	if (!f)
