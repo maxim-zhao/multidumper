@@ -7,7 +7,7 @@ This is a fork of https://bitbucket.org/losnoco/multidumper with the following c
 
 1. Added new options:
   - `--sampling_rate=<number>` to choose the sampling rate
-  - `--no-progress` to disable printing progress to the console (only useful when wrapped by a GUI)
+  - `--no_progress` to disable printing progress to the console (only useful when wrapped by a GUI)
   - `--loop_count=<number>` to pick the number of loops
   - `--play_length=<ms>` to pick the total duration (for formats like NSF)
   - `--fade_length=<ms>` to pick the fade duration for looped tracks
