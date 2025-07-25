@@ -3,11 +3,8 @@
 
 #include <pfc/pfc.h>
 
-#include <gme/Data_Reader.h>
-//#include <Gzip_Extractor.h>
 #include <spu.h>
 #include <spucore.h>
-// For reasons, we get issues with blargg_common if we put the gme includes before fex
 #include <regex>
 #include <gme/Music_Emu.h>
 
