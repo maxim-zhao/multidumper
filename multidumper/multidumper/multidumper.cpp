@@ -3,16 +3,18 @@
 
 #include <pfc/pfc.h>
 
-// For reasons, we get issues with blargg_common if we don't put the gme includes before fex
-#include <gme/Music_Emu.h>
-#include <Data_Reader.h>
-#include <Gzip_Extractor.h>
+#include <gme/Data_Reader.h>
+//#include <Gzip_Extractor.h>
 #include <spu.h>
 #include <spucore.h>
+// For reasons, we get issues with blargg_common if we put the gme includes before fex
+#include <gme/Music_Emu.h>
 
 #include "json.hpp"
 
 using json = nlohmann::json;
+
+using gme_t = Music_Emu;
 
 typedef struct gme_job
 {
@@ -213,7 +215,7 @@ public:
 
 		gme_start_track(gme, track_number);
 
-		gme_set_fade(gme, length, fade);
+		gme_set_fade(gme, length);
 
 		name += gme_voice_name(gme, solo_voice);
 		name += ".wav";
@@ -238,6 +240,7 @@ public:
 		write_le32(fw, 0);
 
 		uint64_t totlen = length;
+
 		if (info->loop_length > 0)
 		{
 			// Loops fade
@@ -248,7 +251,7 @@ public:
 			// Non-looped have a bit of silence
 			totlen += gap_length;
 		}
-		uint64_t remaining = totlen * 44100 / 1000; // sample count
+		uint64_t remaining = totlen * sampling_rate / 1000; // sample count
 
 		while (thread_count >= max_thread_count)
 		{
@@ -635,67 +638,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	fread(song_buffer, 1, size, f);
 	fclose(f);
 
-	while (size >= 2 && ((uint8_t*)song_buffer)[0] == 0x1F && ((uint8_t*)song_buffer)[1] == 0x8B)
-	{
-		size_t new_size;
-		void * new_song_buffer;
-
-		{
-			Mem_File_Reader memreader(song_buffer, size);
-
-			Gzip_Extractor gzex;
-
-			blargg_err_t err = gzex.open(&memreader);
-			if (err)
-			{
-				j["error"] = "Error opening gzipped file.";
-
-				std::cout << j;
-				free(song_buffer);
-				return 1;
-			}
-
-			err = gzex.stat();
-			if (err)
-			{
-				j["error"] = "Error probing stats of gzipped file.";
-
-				std::cout << j;
-				free(song_buffer);
-				return 1;
-			}
-
-			new_size = gzex.size();
-
-			new_song_buffer = malloc(new_size);
-			if (!new_song_buffer)
-			{
-				j["error"] = "Out of memory.";
-
-				std::cout << j;
-				free(song_buffer);
-				return 1;
-			}
-
-			Data_Reader & gzreader = gzex.reader();
-
-			err = gzreader.read(new_song_buffer, new_size);
-
-			if (err)
-			{
-				j["error"] = "Error reading gzipped song.";
-
-				std::cout << j;
-				free(new_song_buffer);
-				free(song_buffer);
-				return 1;
-			}
-		}
-
-		free(song_buffer);
-		song_buffer = new_song_buffer;
-		size = new_size;
-	}
+	// Maxim: removed decompression of GZipped files here - GME can handle them
 
 	const TCHAR * ext = _tcsrchr(argv[argname], _T('.'));
 	if (ext && _tcsicmp(ext + 1, _T("spu")) == 0)

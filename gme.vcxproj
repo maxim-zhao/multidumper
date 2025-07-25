@@ -12,38 +12,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game_Music_Emu\gme\Ay_Apu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Ay_Core.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Ay_Cpu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Ay_Emu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Blip_Buffer.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Bml_Parser.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Classic_Emu.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\Data_Reader.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Dual_Resampler.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Effects_Buffer.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\ext\emu2413.c" />
+    <ClCompile Include="Game_Music_Emu\gme\ext\panning.c" />
     <ClCompile Include="Game_Music_Emu\gme\Fir_Resampler.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Gbs_Core.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Gbs_Cpu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Gbs_Emu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Gb_Apu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Gb_Cpu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Gb_Oscs.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\gme.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Gme_File.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Gme_Loader.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Gym_Emu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Hes_Apu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Hes_Apu_Adpcm.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Hes_Core.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Hes_Cpu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Hes_Emu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\higan\dsp\dsp.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\higan\dsp\SPC_DSP.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\higan\processor\spc700\spc700.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\higan\smp\smp.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Kss_Core.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Kss_Cpu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Kss_Emu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Kss_Scc_Apu.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\M3u_Playlist.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Multi_Buffer.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Music_Emu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Nes_Apu.cpp" />
@@ -55,105 +47,22 @@
     <ClCompile Include="Game_Music_Emu\gme\Nes_Vrc6_Apu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Nes_Vrc7_Apu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Nsfe_Emu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Nsf_Core.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Nsf_Cpu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Nsf_Emu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Nsf_Impl.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Opl_Apu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Resampler.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Rom_Data.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Sap_Apu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Sap_Core.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Sap_Cpu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Sap_Emu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Sgc_Core.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Sgc_Cpu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Sgc_Emu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Sgc_Impl.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Sms_Apu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Sms_Fm_Apu.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\Snes_Spc.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\Spc_Cpu.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\Spc_Dsp.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Spc_Emu.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Spc_Filter.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Spc_Sfm.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Track_Filter.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Vgm_Core.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Vgm_Emu.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\Vgm_Emu_Impl.cpp" />
     <ClCompile Include="Game_Music_Emu\gme\Ym2413_Emu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Ym2612_Emu.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Ym2612_Emu_Gens.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Ym2612_Emu_MAME.cpp" />
-    <ClCompile Include="Game_Music_Emu\gme\Z80_Cpu.cpp" />
-    <ClCompile Include="Game_Music_Emu\vgmplay\VGMPlay\VGMPlay.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Game_Music_Emu\gme\Ay_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Ay_Core.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Ay_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Blip_Buffer.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Bml_Parser.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Classic_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Dual_Resampler.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Effects_Buffer.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Fir_Resampler.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gbs_Core.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gbs_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gb_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gb_Cpu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gb_Cpu_run.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gb_Oscs.h" />
-    <ClInclude Include="Game_Music_Emu\gme\gme.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gme_File.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gme_Loader.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Gym_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Hes_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Hes_Apu_Adpcm.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Hes_Core.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Hes_Cpu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Hes_Cpu_run.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Hes_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\higan\dsp\dsp.hpp" />
-    <ClInclude Include="Game_Music_Emu\gme\higan\dsp\SPC_DSP.h" />
-    <ClInclude Include="Game_Music_Emu\gme\higan\processor\spc700\spc700.hpp" />
-    <ClInclude Include="Game_Music_Emu\gme\higan\smp\smp.hpp" />
-    <ClInclude Include="Game_Music_Emu\gme\Kss_Core.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Kss_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Kss_Scc_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Multi_Buffer.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Music_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Cpu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Cpu_run.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Fds_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Fme7_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Mmc5_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Namco_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Oscs.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Vrc6_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nes_Vrc7_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nsfe_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nsf_Core.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nsf_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Nsf_Impl.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Opl_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Resampler.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Rom_Data.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Sap_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Sap_Core.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Sap_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Sgc_Core.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Sgc_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Sgc_Impl.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Sms_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Sms_Fm_Apu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Spc_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Spc_Filter.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Spc_Sfm.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Track_Filter.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Vgm_Core.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Vgm_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Ym2413_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Ym2612_Emu.h" />
-    <ClInclude Include="Game_Music_Emu\gme\Z80_Cpu.h" />
+    <ClCompile Include="Game_Music_Emu\gme\Ym2612_GENS.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\Ym2612_MAME.cpp" />
+    <ClCompile Include="Game_Music_Emu\gme\Ym2612_Nuked.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -210,7 +119,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HAVE_ZLIB_H;BLARGG_LITTLE_ENDIAN=1;VGM_YM2612_NUKED;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>File_Extractor/fex;zlib/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>

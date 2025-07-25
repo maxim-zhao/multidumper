@@ -75,12 +75,6 @@
     <ClCompile Include="multidumper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\7z.vcxproj">
-      <Project>{a41ea9a0-a778-4b49-b6a6-2d1cd84e6fc6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\fex.vcxproj">
-      <Project>{abf7a090-d637-4485-8a18-646579054a8f}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\gme.vcxproj">
       <Project>{9f091c7d-1558-43e3-bb19-f11acc1a3aa8}</Project>
     </ProjectReference>
@@ -89,12 +83,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\psx.vcxproj">
       <Project>{50d98abf-80a6-47ee-9857-a6912dc8392a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\unrar.vcxproj">
-      <Project>{6d9bc39e-048c-4640-97e6-ac10d3e69c7d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\vgmplay.vcxproj">
-      <Project>{51acf340-4ace-4f1b-80de-653a4581418e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\zlib.vcxproj">
       <Project>{1bf7a090-d637-4485-8a18-646579054a8f}</Project>
