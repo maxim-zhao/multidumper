@@ -30,6 +30,9 @@ int play_length = -1;
 int loop_count = 2;
 int fade_length = 8000;
 int gap_length = 1000;
+bool apply_filter = true;
+double bass_filter = 1.0; // means no filter
+double treble_filter = 0.0; // means no filter
 
 bool show_progress = true;
 
@@ -209,13 +212,20 @@ public:
 
 		unsigned int mute_mask = ~(1 << solo_voice);
 
+		gme_enable_accuracy(gme, true);
 		gme_ignore_silence(gme, true);
 
 		gme_mute_voices(gme, mute_mask);
 
 		gme_start_track(gme, track_number);
 
-		gme_set_fade(gme, length);
+		gme_set_fade_msecs(gme, length, fade_length);
+
+		if (apply_filter)
+		{
+			auto eq = Music_Emu::make_equalizer(treble_filter, bass_filter);
+			gme_set_equalizer(gme, &eq);
+		}
 
 		name += gme_voice_name(gme, solo_voice);
 		name += ".wav";
@@ -573,6 +583,18 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			loop_count = std::stoi(argv[i] + 13);
 		}
+		else if (_tcsnicmp(argv[i], _T("--default_filter"), 16) == 0)
+		{
+			apply_filter = false;
+		}
+		else if (_tcsnicmp(argv[i], _T("--bass_filter="), 14) == 0)
+		{
+			bass_filter = std::stoi(argv[i] + 14);
+		}
+		else if (_tcsnicmp(argv[i], _T("--treble_filter="), 16) == 0)
+		{
+			treble_filter = std::stoi(argv[i] + 16);
+		}
 		else if (_tcsicmp(argv[i], _T("--help")) == 0 || _tcsicmp(argv[i], _T("-h")) == 0 || _tcsicmp(argv[i], _T("/h")) == 0)
 		{
 			show_help = true;
@@ -601,7 +623,20 @@ int _tmain(int argc, _TCHAR* argv[])
 
     if (show_help || argname == -1)
 	{
-		fprintf(stderr, "Usage: multidumper <path> <subsong> [--json] [--no_progress] [--sampling_rate=<number>] [--play_length=<ms>] [--fade_length=<ms>] [--gap_length=<ms>] [--loop_count=<number>]\n");
+		fprintf(
+			stderr, 
+			"Usage: multidumper <path> <subsong> <args>\n"
+			"Args:\n"
+			"--json                      Emit metadata as JSON\n"
+			"--no_progress               Disable progress output to console\n"
+			"--sampling_rate=<number>    Output sample rate. Default is 44100\n"
+			"--play_length=<ms>          How long to play for, for files with no built-in length (like SPC). Default is 3 minutes.\n"
+			"--fade_length=<ms>          How long to play for, for files that are not fixed-length (like looping VGM). Default is 8s.\n"
+			"--gap_length=<ms>           How long to play silence at the end of a fixed-length file (like a non-looping VGM). Default is 1s.\n"
+			"--loop_count=<number>       Loop count, for files that know about looping (like VGM). Default is 2, meaning play the looped part twice.\n"
+			"--default_filter            Enable game_music_emu's default filters based on file type. Default is no filtering.\n"
+			"--bass_filter=<number>      Set game_music_emu's bass filter to this value. 1 = full bass, 90 = average, 16000 = almost no bass.\n"
+			"--treble_filter=<number>    Set game_music_emu's treble filter to this value. -50.0 = muffled, 0 = flat, +5.0 = extra-crisp.\n");
 		return 1;
 	}
 
