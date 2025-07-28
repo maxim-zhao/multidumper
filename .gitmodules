@@ -3,7 +3,7 @@
 	url = https://github.com/libgme/game-music-emu.git
 [submodule "PSXCore"]
 	path = PSXCore
-	url = https://github.com/losnoco/Highly_Experimental.git
+	url = https://bitbucket.org/losnoco/highly_experimental.git
 [submodule "zlib/zlib"]
 	path = zlib/zlib
 	url = https://github.com/madler/zlib.git
