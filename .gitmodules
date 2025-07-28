@@ -1,6 +1,6 @@
 [submodule "Game_Music_Emu"]
 	path = Game_Music_Emu
-	url = https://github.com/libgme/game-music-emu.git
+	url = https://github.com/maxim-zhao/game_music_emu.git
 [submodule "PSXCore"]
 	path = PSXCore
 	url = https://bitbucket.org/losnoco/highly_experimental.git
