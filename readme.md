@@ -16,8 +16,6 @@ This is a fork of https://bitbucket.org/losnoco/multidumper with the following c
    - File length was truncated to a multiple of 512 samples
 3. Updated dependencies to latest versions:
    - ZLib
-   - game_music_emu
-     - Using Nuked core for YM2612
    - highly_experimental
 4. I make builds for Windows and release them! This repo automatically builds using Github Actions and makes a release.
 
