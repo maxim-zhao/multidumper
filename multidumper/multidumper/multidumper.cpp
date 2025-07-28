@@ -28,9 +28,6 @@ int play_length = -1;
 int loop_count = 2;
 int fade_length = 8000;
 int gap_length = 1000;
-bool apply_filter = true;
-double bass_filter = 1.0; // means no filter
-double treble_filter = 0.0; // means no filter
 
 bool show_progress = true;
 
@@ -210,20 +207,13 @@ public:
 
 		unsigned int mute_mask = ~(1 << solo_voice);
 
-		gme_enable_accuracy(gme, true);
 		gme_ignore_silence(gme, true);
 
 		gme_mute_voices(gme, mute_mask);
 
 		gme_start_track(gme, track_number);
 
-		gme_set_fade_msecs(gme, length, fade_length);
-
-		if (apply_filter)
-		{
-			auto eq = Music_Emu::make_equalizer(treble_filter, bass_filter);
-			gme_set_equalizer(gme, &eq);
-		}
+		gme_set_fade(gme, length, fade_length);
 
 		name += gme_voice_name(gme, solo_voice);
 		name += ".wav";
@@ -570,9 +560,6 @@ int _tmain(int argc, _TCHAR* argv[])
 				{L"fade_length", [&] { fade_length = std::stoi(value); }},
 				{L"gap_length", [&] { gap_length = std::stoi(value); }},
 				{L"loop_count", [&] { loop_count = std::stoi(value); }},
-				{L"default_filter", [&] { apply_filter = false; }},
-				{L"bass_filter", [&] { bass_filter = std::stod(value); }},
-				{L"treble_filter", [&] { treble_filter = std::stod(value); }},
 				{L"help", [&] { show_help = true; }},
 			};
 			const auto it = handlers.find(key);
@@ -621,50 +608,32 @@ int _tmain(int argc, _TCHAR* argv[])
 			"--fade_length=<ms>          How long to play for, for files that are not fixed-length (like looping VGM). Default is 8s.\n"
 			"--gap_length=<ms>           How long to play silence at the end of a fixed-length file (like a non-looping VGM). Default is 1s.\n"
 			"--loop_count=<number>       Loop count, for files that know about looping (like VGM). Default is 2, meaning play the looped part twice.\n"
-			"--default_filter            Enable game_music_emu's default filters based on file type. Default is no filtering.\n"
-			"--treble_filter=<number>    Set game_music_emu's treble filter to this value. -50.0 = muffled, 0 = flat, +5.0 = extra-crisp.\n"
-			"--bass_filter=<number>      Set game_music_emu's bass filter to this value. 1 = full bass, 90 = average, 16000 = almost no bass.\n"
-            "Here's some of game_music_emu's built-in filters:\n"
-            "Name                Treble   Bass\n"
-            "Game Boy speaker     -47     2000\n"
-            "Game Boy headphones    0      300\n"
-            "TV                    -8      180\n"
-            "NES                   -1       80\n"
-            "Famicom              -15       80\n"
-            "GBS files             -1      120\n"
-            "VGM files            -14       80");
+		);
 		return 1;
 	}
 
-    FILE * f = _tfopen(argv[argname], _T("rb"));
-	if (!f)
+	Gzip_File_Reader reader;
+	auto error = reader.open(pfc::stringcvt::string_ansi_from_wide(argv[argname]).get_ptr());
+	if (error != blargg_ok)
 	{
-		
 		j["error"] = "Unable to open file.";
-
 		std::cout << j;
-
 		return 1;
 	}
 
-	fseek(f, 0, SEEK_END);
-	size = ftell(f);
-	fseek(f, 0, SEEK_SET);
-
+	size = reader.size();
 	song_buffer = malloc(size);
 	if (!song_buffer)
 	{
 		j["error"] = "Out of memory.";
 
 		std::cout << j;
-		fclose(f);
+		reader.close();
 		return 1;
 	}
 
-	fread(song_buffer, 1, size, f);
-	fclose(f);
-
-	// Maxim: removed decompression of GZipped files here - GME can handle them
+	reader.read(song_buffer, size);
+	reader.close();
 
 	const TCHAR * ext = _tcsrchr(argv[argname], _T('.'));
 	if (ext && _tcsicmp(ext + 1, _T("spu")) == 0)
@@ -868,7 +837,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		if (err)
 		{
-			j["error"] = "Error opening song.";
+			j["error"] = err;
 			
 			std::cout << j;
 
