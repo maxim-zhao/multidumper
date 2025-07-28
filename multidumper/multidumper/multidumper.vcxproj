@@ -50,7 +50,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../File_Extractor/fex;../../Game_Music_Emu;../../PSXCore/Core;../../zlib/zlib;../..</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Game_Music_Emu;../../PSXCore/Core;../../zlib/zlib;../..</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_ZLIB_H;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -59,7 +60,9 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../File_Extractor/fex;../../Game_Music_Emu;../../PSXCore/Core;../../zlib/zlib;../..</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Game_Music_Emu;../../PSXCore/Core;../../zlib/zlib;../..</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>HAVE_ZLIB_H;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -75,11 +78,16 @@
     <ClCompile Include="multidumper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\gme.vcxproj">
-      <Project>{9f091c7d-1558-43e3-bb19-f11acc1a3aa8}</Project>
+    <ProjectReference Include="..\..\Game_Music_Emu\msvc\Game_Music_Emu.vcxproj">
+      <Project>{c3e262d2-2d15-4a46-98f1-2ce8a74f3590}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ProjectReference Include="..\..\pfc.vcxproj">
       <Project>{9c9ecb9f-ea3a-4230-8149-43fc588fa6e0}</Project>
+      <Private>false</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\psx.vcxproj">
       <Project>{50d98abf-80a6-47ee-9857-a6912dc8392a}</Project>

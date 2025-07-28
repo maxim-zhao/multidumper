@@ -10,13 +10,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultidumperGUI", "..\Multid
 		{A4E4F4D8-DFEB-4FDC-9843-224E4A1E5399} = {A4E4F4D8-DFEB-4FDC-9843-224E4A1E5399}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gme", "..\gme.vcxproj", "{9F091C7D-1558-43E3-BB19-F11ACC1A3AA8}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfc", "..\pfc.vcxproj", "{9C9ECB9F-EA3A-4230-8149-43FC588FA6E0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psx", "..\psx.vcxproj", "{50D98ABF-80A6-47EE-9857-A6912DC8392A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "..\zlib.vcxproj", "{1BF7A090-D637-4485-8A18-646579054A8F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game_Music_Emu", "..\Game_Music_Emu\msvc\Game_Music_Emu.vcxproj", "{C3E262D2-2D15-4A46-98F1-2CE8A74F3590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +32,6 @@ Global
 		{BB4279A3-3893-4BEB-8257-AC1CDB9F72A2}.Debug|x64.Build.0 = Debug|x64
 		{BB4279A3-3893-4BEB-8257-AC1CDB9F72A2}.Release|x64.ActiveCfg = Release|Any CPU
 		{BB4279A3-3893-4BEB-8257-AC1CDB9F72A2}.Release|x64.Build.0 = Release|Any CPU
-		{9F091C7D-1558-43E3-BB19-F11ACC1A3AA8}.Debug|x64.ActiveCfg = Debug|x64
-		{9F091C7D-1558-43E3-BB19-F11ACC1A3AA8}.Debug|x64.Build.0 = Debug|x64
-		{9F091C7D-1558-43E3-BB19-F11ACC1A3AA8}.Release|x64.ActiveCfg = Release|x64
-		{9F091C7D-1558-43E3-BB19-F11ACC1A3AA8}.Release|x64.Build.0 = Release|x64
 		{9C9ECB9F-EA3A-4230-8149-43FC588FA6E0}.Debug|x64.ActiveCfg = Debug|x64
 		{9C9ECB9F-EA3A-4230-8149-43FC588FA6E0}.Debug|x64.Build.0 = Debug|x64
 		{9C9ECB9F-EA3A-4230-8149-43FC588FA6E0}.Release|x64.ActiveCfg = Release|x64
@@ -48,6 +44,9 @@ Global
 		{1BF7A090-D637-4485-8A18-646579054A8F}.Debug|x64.Build.0 = Debug|x64
 		{1BF7A090-D637-4485-8A18-646579054A8F}.Release|x64.ActiveCfg = Release|x64
 		{1BF7A090-D637-4485-8A18-646579054A8F}.Release|x64.Build.0 = Release|x64
+		{C3E262D2-2D15-4A46-98F1-2CE8A74F3590}.Debug|x64.ActiveCfg = Debug|x64
+		{C3E262D2-2D15-4A46-98F1-2CE8A74F3590}.Release|x64.ActiveCfg = Release|x64
+		{C3E262D2-2D15-4A46-98F1-2CE8A74F3590}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
