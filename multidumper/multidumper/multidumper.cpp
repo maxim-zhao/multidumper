@@ -29,6 +29,8 @@ int loop_count = 2;
 int fade_length = 8000;
 int gap_length = 1000;
 
+int ym2413_core = 0; // emu2413
+
 bool show_progress = true;
 
 pfc::string8 base_name;
@@ -210,6 +212,9 @@ public:
 		gme_ignore_silence(gme, true);
 
 		gme_mute_voices(gme, mute_mask);
+
+		// WIP here
+		gme_set_emulator_options(gme, ym2413_core);
 
 		gme_start_track(gme, track_number);
 
@@ -560,12 +565,27 @@ int _tmain(int argc, _TCHAR* argv[])
 				{L"fade_length", [&] { fade_length = std::stoi(value); }},
 				{L"gap_length", [&] { gap_length = std::stoi(value); }},
 				{L"loop_count", [&] { loop_count = std::stoi(value); }},
+				{L"ym2413_core", [&]
+				{
+				    if (value == L"emu2413")	ym2413_core = 0;
+                    else if (value == L"mame")	ym2413_core = 1;
+                    else						
+                    {
+                        fprintf(stderr, "Unrecognised core \"%ls\"\n", value.c_str());
+                        show_help = true;
+					}
+                }},
 				{L"help", [&] { show_help = true; }},
 			};
 			const auto it = handlers.find(key);
 			if (it != handlers.end())
 			{
 			    it->second();
+			}
+			else
+			{
+				fprintf(stderr, "Unrecognised option \"%ls\"\n", key.c_str());
+				show_help = true;
 			}
 		}
 		else if (_tcsicmp(argv[i], _T("-h")) == 0 || _tcsicmp(argv[i], _T("/h")) == 0)
@@ -601,13 +621,14 @@ int _tmain(int argc, _TCHAR* argv[])
 			stderr, 
 			"Usage: multidumper <path> <subsong> <args>\n"
 			"Args:\n"
-			"--json                      Emit metadata as JSON\n"
-			"--no_progress               Disable progress output to console\n"
-			"--sampling_rate=<number>    Output sample rate. Default is 44100\n"
-			"--play_length=<ms>          How long to play for, for files with no built-in length (like SPC). Default is 3 minutes.\n"
-			"--fade_length=<ms>          How long to play for, for files that are not fixed-length (like looping VGM). Default is 8s.\n"
-			"--gap_length=<ms>           How long to play silence at the end of a fixed-length file (like a non-looping VGM). Default is 1s.\n"
-			"--loop_count=<number>       Loop count, for files that know about looping (like VGM). Default is 2, meaning play the looped part twice.\n"
+			"--json                       Emit metadata as JSON\n"
+			"--no_progress                Disable progress output to console\n"
+			"--sampling_rate=<number>     Output sample rate. Default is 44100\n"
+			"--play_length=<ms>           How long to play for, for files with no built-in length (like SPC). Default is 3 minutes.\n"
+			"--fade_length=<ms>           How long to play for, for files that are not fixed-length (like looping VGM). Default is 8s.\n"
+			"--gap_length=<ms>            How long to play silence at the end of a fixed-length file (like a non-looping VGM). Default is 1s.\n"
+			"--loop_count=<number>        Loop count, for files that know about looping (like VGM). Default is 2, meaning play the looped part twice.\n"
+			"--ym2413_core=<emu2413|mame> Select the YM2413 core. Default is emu2413.\n"
 		);
 		return 1;
 	}
