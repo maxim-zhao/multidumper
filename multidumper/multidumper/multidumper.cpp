@@ -28,6 +28,9 @@ int play_length = -1;
 int loop_count = 2;
 int fade_length = 8000;
 int gap_length = 1000;
+bool apply_filter = true;
+double bass_filter = 1.0; // means no filter
+double treble_filter = 0.0; // means no filter
 
 int ym2413_core = 0; // emu2413
 
@@ -218,7 +221,13 @@ public:
 
 		gme_start_track(gme, track_number);
 
-		gme_set_fade(gme, length, fade_length);
+		if (apply_filter)
+		{
+			gme_equalizer_t eq = {treble_filter, bass_filter, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+			gme_set_equalizer(gme, &eq);
+		}
+
+	    gme_set_fade(gme, length, fade_length);
 
 		name += gme_voice_name(gme, solo_voice);
 		name += ".wav";
@@ -565,6 +574,9 @@ int _tmain(int argc, _TCHAR* argv[])
 				{L"fade_length", [&] { fade_length = std::stoi(value); }},
 				{L"gap_length", [&] { gap_length = std::stoi(value); }},
 				{L"loop_count", [&] { loop_count = std::stoi(value); }},
+				{L"default_filter", [&] { apply_filter = false; }},
+				{L"bass_filter", [&] { bass_filter = std::stod(value); }},
+				{L"treble_filter", [&] { treble_filter = std::stod(value); }},
 				{L"ym2413_core", [&]
 				{
 				    if (value == L"emu2413")	ym2413_core = 0;
@@ -628,6 +640,19 @@ int _tmain(int argc, _TCHAR* argv[])
 			"--fade_length=<ms>           How long to play for, for files that are not fixed-length (like looping VGM). Default is 8s.\n"
 			"--gap_length=<ms>            How long to play silence at the end of a fixed-length file (like a non-looping VGM). Default is 1s.\n"
 			"--loop_count=<number>        Loop count, for files that know about looping (like VGM). Default is 2, meaning play the looped part twice.\n"
+			"--default_filter             Enable game_music_emu's default filters based on file type. Default is no filtering.\n"
+			"--treble_filter=<number>     Set game_music_emu's treble filter to this value. -50.0 = muffled, 0 = flat, +5.0 = extra-crisp.\n"
+			"--bass_filter=<number>       Set game_music_emu's bass filter to this value. 1 = full bass, 90 = average, 16000 = almost no bass.\n"
+            "                             Here's some of game_music_emu's built-in filters:\n"
+            "                             Name                       Treble   Bass\n"
+            "                             Game Boy speaker            -47     2000\n"
+            "                             Game Boy Color headphones     0      300\n"
+            "                             Game Boy headphones           0       30\n"
+            "                             TV                           -8      180\n"
+            "                             NES                          -1       80\n"
+            "                             Famicom                     -15       80\n"
+            "                             GBS files                    -1      120\n"
+            "                             VGM files (Mega Drive?)     -14       80\n"
 			"--ym2413_core=<emu2413|mame> Select the YM2413 core. Default is emu2413.\n"
 		);
 		return 1;
