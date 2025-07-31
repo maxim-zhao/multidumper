@@ -51,6 +51,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../../Game_Music_Emu;../../PSXCore/Core;../../zlib/zlib;../..</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_ZLIB_H;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

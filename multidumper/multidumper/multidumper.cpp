@@ -265,6 +265,7 @@ public:
 		}
 		uint64_t remaining = totlen * sampling_rate / 1000; // sample count
 
+		// Idle waiting for a "free" slot, but there is a race here...
 		while (thread_count >= max_thread_count)
 		{
 			if (show_progress)
@@ -557,10 +558,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	for (int i = 1; i < argc; ++i)
 	{
-		static const std::map<std::wstring, std::function<void()>> handlers = {
-			{L"json", [&]{ dump_metadata_as_json = true; }},
-			{L"np_progress", [&] { show_progress = false; }},
-		};
         std::match_results<const TCHAR*> m;
 		if (std::regex_match(argv[i], m, std::basic_regex<TCHAR>(_T("--([^=]+)(=(.+))?"))))
 		{
@@ -569,6 +566,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			const std::map<std::wstring, std::function<void()>> handlers = {
 				{L"json", [&]{ dump_metadata_as_json = true; }},
 				{L"no_progress", [&] { show_progress = false; }},
+				{L"max_threads", [&] { max_thread_count = std::stoi(value); }},
 				{L"sampling_rate", [&] { sampling_rate = std::stoi(value); }},
 				{L"play_length", [&] { play_length = std::stoi(value); }},
 				{L"fade_length", [&] { fade_length = std::stoi(value); }},
@@ -579,8 +577,10 @@ int _tmain(int argc, _TCHAR* argv[])
 				{L"treble_filter", [&] { treble_filter = std::stod(value); }},
 				{L"ym2413_core", [&]
 				{
+					// These constants match #defines in 2413intf.c
 				    if (value == L"emu2413")	ym2413_core = 0;
                     else if (value == L"mame")	ym2413_core = 1;
+                    else if (value == L"nuked")	ym2413_core = 2;
                     else						
                     {
                         fprintf(stderr, "Unrecognised core \"%ls\"\n", value.c_str());
@@ -631,7 +631,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		fprintf(
 			stderr, 
-			"Usage: multidumper <path> <subsong> <args>\n"
+			"Usage: multidumper <path> [subsong] <args>\n"
 			"Args:\n"
 			"--json                       Emit metadata as JSON\n"
 			"--no_progress                Disable progress output to console\n"
@@ -653,7 +653,8 @@ int _tmain(int argc, _TCHAR* argv[])
             "                             Famicom                     -15       80\n"
             "                             GBS files                    -1      120\n"
             "                             VGM files (Mega Drive?)     -14       80\n"
-			"--ym2413_core=<emu2413|mame> Select the YM2413 core. Default is emu2413.\n"
+			"--ym2413_core=<emu2413|mame|nuked>\n"
+            "                             Select the YM2413 core. Default is emu2413.\n"
 		);
 		return 1;
 	}
@@ -984,7 +985,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			threads[i]->startVoice(i);
 		}
-		while (thread_count)
+		while (thread_count > 0)
 		{
 			Sleep(100);
 		}

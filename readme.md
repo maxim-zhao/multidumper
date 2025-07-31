@@ -9,14 +9,22 @@ This is a fork of https://bitbucket.org/losnoco/multidumper with the following c
    - `--sampling_rate=<number>` to choose the sampling rate
    - `--no_progress` to disable printing progress to the console (only useful when wrapped by a GUI)
    - `--loop_count=<number>` to pick the number of loops
+   - `--max_threads=<number>` to pick the number of threads to use (defaults to all your CPU cores)
    - `--play_length=<ms>` to pick the total duration (for formats like NSF)
    - `--fade_length=<ms>` to pick the fade duration for looped tracks
    - `--gap_length=<ms>` to add silence after non-looped tracks
+   - Filtering options:
+     - `--default_filter` to enable any default filtering - by default, filtering is disabled for backwards compatibility
+     - `--bass_filter=<number>` to set a bass filter
+     - `--treble_filter=<number>` to set a treble filter
+   - Emulation core options
+     - `--ym2413_core=<emu2413|mame|nuked>` to select the emulation core for YM2413
 2. Fixed bugs:
    - File length was truncated to a multiple of 512 samples
 3. Updated dependencies to latest versions:
    - ZLib
    - highly_experimental
+   - emu2413
 4. I make builds for Windows and release them! This repo automatically builds using Github Actions and makes a release.
 
 Some notes on Multidumper's source
