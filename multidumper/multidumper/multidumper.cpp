@@ -33,6 +33,7 @@ double bass_filter = 1.0; // means no filter
 double treble_filter = 0.0; // means no filter
 
 int ym2413_core = 0; // emu2413
+int ym2612_core = 0; // mame
 
 bool show_progress = true;
 
@@ -191,7 +192,7 @@ public:
 
 		if (play_length > 0)
 		{
-		    length = play_length;
+			length = play_length;
 			fade = fade_length;
 		}
 		else if (info->loop_length > 0)
@@ -217,7 +218,7 @@ public:
 		gme_mute_voices(gme, mute_mask);
 
 		// WIP here
-		gme_set_emulator_options(gme, ym2413_core);
+		gme_set_emulator_options(gme, ym2413_core, ym2612_core);
 
 		gme_start_track(gme, track_number);
 
@@ -227,7 +228,7 @@ public:
 			gme_set_equalizer(gme, &eq);
 		}
 
-	    gme_set_fade(gme, length, fade_length);
+		gme_set_fade(gme, length, fade_length);
 
 		name += gme_voice_name(gme, solo_voice);
 		name += ".wav";
@@ -558,7 +559,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	for (int i = 1; i < argc; ++i)
 	{
-        std::match_results<const TCHAR*> m;
+		std::match_results<const TCHAR*> m;
 		if (std::regex_match(argv[i], m, std::basic_regex<TCHAR>(_T("--([^=]+)(=(.+))?"))))
 		{
 			const auto& key = m[1].str();
@@ -578,21 +579,33 @@ int _tmain(int argc, _TCHAR* argv[])
 				{L"ym2413_core", [&]
 				{
 					// These constants match #defines in 2413intf.c
-				    if (value == L"emu2413")	ym2413_core = 0;
-                    else if (value == L"mame")	ym2413_core = 1;
-                    else if (value == L"nuked")	ym2413_core = 2;
-                    else						
-                    {
-                        fprintf(stderr, "Unrecognised core \"%ls\"\n", value.c_str());
-                        show_help = true;
+					if (value == L"emu2413")	ym2413_core = 0;
+					else if (value == L"mame")	ym2413_core = 1;
+					else if (value == L"nuked")	ym2413_core = 2;
+					else
+					{
+						fprintf(stderr, "Unrecognised ym2413 core \"%ls\"\n", value.c_str());
+						show_help = true;
 					}
-                }},
+				}},
+				{L"ym2612_core", [&]
+				{
+					// These constants match #defines in 2612intf.c
+					if (value == L"mame")	ym2612_core = 0;
+					else if (value == L"gens")	ym2612_core = 1;
+					else if (value == L"nuked")	ym2612_core = 2;
+					else
+					{
+						fprintf(stderr, "Unrecognised ym2612 core \"%ls\"\n", value.c_str());
+						show_help = true;
+					}
+				}},
 				{L"help", [&] { show_help = true; }},
 			};
 			const auto it = handlers.find(key);
 			if (it != handlers.end())
 			{
-			    it->second();
+				it->second();
 			}
 			else
 			{
@@ -627,7 +640,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 	}
 
-    if (show_help || argname == -1)
+	if (show_help || argname == -1)
 	{
 		fprintf(
 			stderr, 
@@ -643,18 +656,20 @@ int _tmain(int argc, _TCHAR* argv[])
 			"--default_filter             Enable game_music_emu's default filters based on file type. Default is no filtering.\n"
 			"--treble_filter=<number>     Set game_music_emu's treble filter to this value. -50.0 = muffled, 0 = flat, +5.0 = extra-crisp.\n"
 			"--bass_filter=<number>       Set game_music_emu's bass filter to this value. 1 = full bass, 90 = average, 16000 = almost no bass.\n"
-            "                             Here's some of game_music_emu's built-in filters:\n"
-            "                             Name                       Treble   Bass\n"
-            "                             Game Boy speaker            -47     2000\n"
-            "                             Game Boy Color headphones     0      300\n"
-            "                             Game Boy headphones           0       30\n"
-            "                             TV                           -8      180\n"
-            "                             NES                          -1       80\n"
-            "                             Famicom                     -15       80\n"
-            "                             GBS files                    -1      120\n"
-            "                             VGM files (Mega Drive?)     -14       80\n"
+			"                             Here's some of game_music_emu's built-in filters:\n"
+			"                             Name                       Treble   Bass\n"
+			"                             Game Boy speaker            -47     2000\n"
+			"                             Game Boy Color headphones     0      300\n"
+			"                             Game Boy headphones           0       30\n"
+			"                             TV                           -8      180\n"
+			"                             NES                          -1       80\n"
+			"                             Famicom                     -15       80\n"
+			"                             GBS files                    -1      120\n"
+			"                             VGM files (Mega Drive?)     -14       80\n"
 			"--ym2413_core=<emu2413|mame|nuked>\n"
-            "                             Select the YM2413 core. Default is emu2413.\n"
+			"                             Select the YM2413 core. Default is emu2413.\n"
+			"--ym2612_core=<mame|gens|nuked>\n"
+			"                             Select the YM2612 core. Default is mame.\n"
 		);
 		return 1;
 	}
