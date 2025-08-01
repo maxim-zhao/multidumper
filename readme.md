@@ -25,7 +25,7 @@ This is a fork of https://bitbucket.org/losnoco/multidumper with the following c
 3. Updated dependencies to latest versions:
    - ZLib
    - highly_experimental
-   - emu2413
+   - [emu2413](https://github.com/digital-sound-antiques/emu2413)
 4. Added new, up to date emulation cores:
    - [Nuked OPLL](https://github.com/nukeykt/Nuked-OPLL)
    - [Nuked OPN2](https://github.com/nukeykt/Nuked-OPN2)
